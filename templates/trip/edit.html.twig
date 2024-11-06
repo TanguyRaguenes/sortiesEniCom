@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TripController!{% endblock %}
+
+{% block body %}
+
+
+    {{ form_start(form) }}
+
+    <div class="border-2 rounded-lg w-11/12 bg-yellow-200 flex flex-col items-center mx-auto mt-10">
+
+       <div class="tw_formItem">
+           {{ form_label(form.name,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.name,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.name) }}
+       </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.dateAndTime,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.dateAndTime,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.dateAndTime) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.duration,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.duration,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.duration) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.seats,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.seats,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.seats) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.textNote,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.textNote,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.textNote) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.registrationDeadline,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.registrationDeadline,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.registrationDeadline) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.campus,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.campus,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.campus) }}
+        </div>
+
+        <div class="tw_formItem">
+            {{ form_label(form.state,null,{
+                'label_attr':{'class':'text-xl'}
+            }) }}
+            {{ form_widget(form.state,{
+                'attr':{'class':'tw_input'}
+            }) }}
+            {{ form_errors(form.state) }}
+        </div>
+
+        <button class="tw_btn">Submit</button>
+    </div>
+
+    {{ form_end(form) }}
+
+
+
+{% endblock %}
