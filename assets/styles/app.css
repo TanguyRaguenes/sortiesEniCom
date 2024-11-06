@@ -1,3 +1,20 @@
-body {
-    background-color: skyblue;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.tw_btn {
+    @apply h-10 w-11/12 m-2 text-white bg-gradient-to-r from-purple-400 to-pink-400 shadow-lg border-2 border-purple-300 rounded-md hover:scale-105 hover:shadow-2xl hover:border-pink-300 hover:from-pink-400 hover:to-purple-400 transition-all duration-300 ease-in-out
+}
+
+.tw_formItem {
+    @apply w-11/12 flex flex-col justify-center items-center h-20 mt-2
+}
+
+.tw_input {
+    @apply mt-2 h-10 w-full text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner
+}
+
+.tw_svg {
+    @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700
 }

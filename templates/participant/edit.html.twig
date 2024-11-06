@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Participant!{% endblock %}
+
+{% block body %}
+     <h2>Ajouter un produit</h2>
+
+     {{ form_start(form) }}
+
+    <div class="border-2 rounded-lg w-11/12 bg-yellow-200 flex flex-col items-center mx-auto mt-10">
+
+       <div class="tw_formItem">
+           {{ form_label(form.name,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.name,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.name) }}
+       </div>
+       
+       <div class="tw_formItem">
+           {{ form_label(form.firstName,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.firstName,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.firstName) }}
+       </div>
+       <div class="tw_formItem">
+           {{ form_label(form.username,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.username,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.username) }}
+       </div>
+       <div class="tw_formItem">
+           {{ form_label(form.email,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.email,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.email) }}
+       </div>
+       <div class="tw_formItem">
+           {{ form_label(form.phone,null,{
+               'label_attr':{'class':'text-xl'}
+           })}}
+           {{ form_widget(form.phone,{
+               'attr':{'class':'tw_input'}
+           }) }}
+           {{ form_errors(form.phone) }}
+       </div>
+
+        <button class="tw_btn">Envoyer !</button>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
