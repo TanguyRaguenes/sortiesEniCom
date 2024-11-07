@@ -47,13 +47,23 @@ class ParticipantController extends AbstractController
             'form'=>$form
 
         ]);
-
     }
-     #[Route('/participant/profil', name: 'app_participant_profil')]
+
+    #[Route('/participant/profil', name: 'app_participant_profil')]
     public function profil(): Response
     {
+
+        $user = $this->getUser();
+        dd($user);
+
         return $this->render('participant/profil.html.twig', [
             'controller_name' => 'ParticipantController',
+            'user' => $user
         ]);
     }
+
+
 }
+
+
+

@@ -16,6 +16,17 @@ class StateRepository extends ServiceEntityRepository
         parent::__construct($registry, State::class);
     }
 
+
+    public function findOneByLabel(String $label): ?State
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.label = :label')
+            ->setParameter('label', $label)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     //    /**
     //     * @return State[] Returns an array of State objects
     //     */
