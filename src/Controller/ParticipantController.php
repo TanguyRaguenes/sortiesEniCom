@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ParticipantController extends AbstractController
 {
-    #[Route('', name: 'index')]
+    #[Route('/participant', name: 'app_participant')]
     public function index(): Response
     {
         return $this->render('participant/index.html.twig', [
