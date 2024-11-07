@@ -17,3 +17,57 @@
 .tw_svg {
     @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700
 }
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 20px 0;
+}
+
+/* .tham {
+    display: block;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.tham-box {
+    position: relative;
+    width: 40px;
+    height: 30px;
+    transition: all 0.3s;
+}
+
+.tham-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: white;
+    transition: transform 0.3s;
+}
+
+.tham-inner:nth-child(2) {
+    top: 10px;
+}
+
+.tham-inner:nth-child(3) {
+    top: 20px;
+}
+
+.tham-active .tham-inner:nth-child(1) {
+    transform: rotate(45deg);
+    top: 10px;
+}
+
+.tham-active .tham-inner:nth-child(2) {
+    opacity: 0;
+}
+
+.tham-active .tham-inner:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 10px;
+} */
