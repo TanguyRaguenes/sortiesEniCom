@@ -23,16 +23,16 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
-
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
             $entityManager->flush();
+
             $this->addFlash('success', 'You have just registered!!');
 
-            return $security->login($user, 'form_login', 'main');
+            return $userAuthenticator->authenticateUser($user, $authenticator, $request);
         }else {
-            $this->addFlash('error', 'ERROR !!!');
+            $this->addFlash('error', 'You have just logged out!!');
         }
 
         return $this->render('registration/register.html.twig', [

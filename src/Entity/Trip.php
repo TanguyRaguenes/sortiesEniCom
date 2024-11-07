@@ -46,9 +46,19 @@ class Trip
     #[ORM\ManyToOne(inversedBy: 'trips')]
     private ?State $state = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tripsOrganizer')]
+    private ?Participant $organizer = null;
+
+    /**
+     * @var Collection<int, Participant>
+     */
+    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'tripsParticipant')]
+    private Collection $participants;
+
     public function __construct()
     {
         $this->place = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +188,42 @@ class Trip
     public function setState(?State $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?Participant
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?Participant $organizer): static
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): static
+    {
+        $this->participants->removeElement($participant);
 
         return $this;
     }

@@ -1,0 +1,27 @@
+body {
+    background-color: transparent;
+}
+
+.index-background {
+    position: relative;
+    background-image: url('/image/background.jpg');
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+}
+
+.index-background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+html {
+    height: 100%;
+}

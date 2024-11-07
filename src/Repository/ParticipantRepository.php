@@ -33,6 +33,15 @@ class ParticipantRepository extends ServiceEntityRepository
     }
 
 
+    public function findOneByEmail(String $email): ?Participant
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
 //    public function findAllParticipants()
 //    {
