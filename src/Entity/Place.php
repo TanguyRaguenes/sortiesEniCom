@@ -25,7 +25,7 @@ class Place
     #[ORM\Column]
     private ?float $longitude = null;
 
-    #[ORM\ManyToOne(inversedBy: 'place')]
+    #[ORM\ManyToOne(targetEntity: Trip::class, inversedBy: 'place')]
     private ?Trip $trip = null;
 
     public function getId(): ?int

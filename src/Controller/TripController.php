@@ -5,27 +5,37 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripFormType;
 use App\Repository\TripRepository;
+use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TripController extends AbstractController
 {
     #[Route('/trip/list', name: 'app_trip_list')]
-    public function displayList(TripRepository $tripRepository): Response
+    public function displayList(TripRepository $tripRepository, CampusRepository $campusRepository, Request $request): Response
     {
+        $campuses = $campusRepository->findAll();
+        
+        $selectedCampusId = $request->query->get('campus');
 
-        $trips = $tripRepository->findAll();
+        if ($selectedCampusId) {
+            $trips = $tripRepository->findBy(['campus' => $selectedCampusId]);
+        } else {
+            $trips = $tripRepository->findAll();
+        }
+
         return $this->render('trip/list.html.twig', [
             'trips' => $trips,
+            'campuses' => $campuses,
+            'selectedCampusId' => $selectedCampusId,
         ]);
     }
-//    #[IsGranted('ROLE_ADMIN', 'ROLE_ORGANIZER')]
+
     #[Route('/trip/create', name: 'app_trip_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, StateRepository $stateRepository): Response
     {
@@ -60,12 +70,10 @@ class TripController extends AbstractController
 
     }
 
-    #[Route('/trip/detail/{id}', name: 'app_trip_detail', requirements:['id'=> '\d+'])]
+    #[Route('/trip/detail/{id}', name: 'app_trip_detail', requirements: ['id' => '\d+'])]
     public function displayDetail(int $id, TripRepository $tripRepository): Response
     {
-
         $trip = $tripRepository->find($id);
-        // dd($trip);
         return $this->render('trip/detail.html.twig', [
             'trip' => $trip,
         ]);
