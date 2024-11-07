@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,6 +33,24 @@ class Participant
 
     #[ORM\Column(nullable: true)]
     private ?int $phone = null;
+
+    /**
+     * @var Collection<int, Trip>
+     */
+    #[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'organizer')]
+    private Collection $tripsOrganizer;
+
+    /**
+     * @var Collection<int, Trip>
+     */
+    #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'participants')]
+    private Collection $tripsParticipant;
+
+    public function __construct()
+    {
+        $this->tripsOrganizer = new ArrayCollection();
+        $this->tripsParticipant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +113,63 @@ class Participant
     public function setPhone(?int $phone): static
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getTripsOrganizer(): Collection
+    {
+        return $this->tripsOrganizer;
+    }
+
+    public function addTripsOrganizer(Trip $tripsOrganizer): static
+    {
+        if (!$this->tripsOrganizer->contains($tripsOrganizer)) {
+            $this->tripsOrganizer->add($tripsOrganizer);
+            $tripsOrganizer->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTripsOrganizer(Trip $tripsOrganizer): static
+    {
+        if ($this->tripsOrganizer->removeElement($tripsOrganizer)) {
+            // set the owning side to null (unless already changed)
+            if ($tripsOrganizer->getOrganizer() === $this) {
+                $tripsOrganizer->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getTripsParticipant(): Collection
+    {
+        return $this->tripsParticipant;
+    }
+
+    public function addTripsParticipant(Trip $tripsParticipant): static
+    {
+        if (!$this->tripsParticipant->contains($tripsParticipant)) {
+            $this->tripsParticipant->add($tripsParticipant);
+            $tripsParticipant->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTripsParticipant(Trip $tripsParticipant): static
+    {
+        if ($this->tripsParticipant->removeElement($tripsParticipant)) {
+            $tripsParticipant->removeParticipant($this);
+        }
 
         return $this;
     }
