@@ -8,13 +8,22 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/main', name: 'app_main')]
-    public function index(): Response
+
+    #[Route('/', name: 'app_main_home')]
+    public function displayHome(): Response
     {
-        // Pensez a forcer le log du user pour accédez au reste du site !!
+        return $this->render('main/home.html.twig');
+    }
+
+    #[Route('/welcome', name: 'app_main_welcome')]
+    public function displayWelcome(): Response
+    {
+
         $user = $this->getUser();
-        return $this->render('main/index.html.twig', [
+
+        return $this->render('main/welcome.html.twig', [
             'user' => $user,
         ]);
     }
+    
 }
