@@ -17,24 +17,40 @@ use Symfony\Component\Routing\Annotation\Route;
 class TripController extends AbstractController
 {
     #[Route('/trip/list', name: 'app_trip_list')]
-    public function displayList(TripRepository $tripRepository, CampusRepository $campusRepository, Request $request): Response
-    {
-        $campuses = $campusRepository->findAll();
-        
-        $selectedCampusId = $request->query->get('campus');
+    public function displayList(TripRepository $tripRepository, CampusRepository $campusRepository, ParticipantRepository $participantRepository, Request $request): Response
+{
+    $campuses = $campusRepository->findAll();
+    $selectedCampusId = $request->query->get('campus');
+    $filter = $request->query->get('filter');
+    $user = $this->getUser();
 
-        if ($selectedCampusId) {
-            $trips = $tripRepository->findBy(['campus' => $selectedCampusId]);
-        } else {
-            $trips = $tripRepository->findAll();
-        }
+    // Récupérer le Participant correspondant au User connecté
+    $participant = $participantRepository->findOneByEmail($user->getEmail());
 
-        return $this->render('trip/list.html.twig', [
-            'trips' => $trips,
-            'campuses' => $campuses,
-            'selectedCampusId' => $selectedCampusId,
-        ]);
+    $criteria = [];
+
+    if ($selectedCampusId) {
+        $criteria['campus'] = $selectedCampusId;
     }
+
+    if ($filter === 'created' && $participant) {
+        // Filtrer par organisateur
+        $trips = $tripRepository->findTripsByOrganizer($participant, $criteria);
+    } elseif ($filter === 'participate' && $participant) {
+        // Filtrer par participant
+        $trips = $tripRepository->findTripsByParticipant($participant, $criteria);
+    } else {
+        $trips = $tripRepository->findBy($criteria);
+    }
+
+    return $this->render('trip/list.html.twig', [
+        'trips' => $trips,
+        'campuses' => $campuses,
+        'selectedCampusId' => $selectedCampusId,
+        'selectedFilter' => $filter,
+    ]);
+}
+
 
     #[Route('/trip/create', name: 'app_trip_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, StateRepository $stateRepository): Response
