@@ -151,35 +151,25 @@ class TripController extends AbstractController
     }
 
     #[Route('/trip/edit/{id}', name: 'app_trip_edit')]
-    public function update(int $id, Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager, StateRepository $stateRepository): Response {
-        $trip = $tripRepository->find($id);
-
+    public function update(int $id, Request $request, TripRepository $TripRepository, EntityManagerInterface $entityManager): Response
+    {
+        $trip = $TripRepository->find($id);
         if (!$trip) {
             throw $this->createNotFoundException('Trip not found');
         }
-
-        $user = $this->getUser();
-        if ($trip->getOrganizer() !== $user) {
-            throw $this->createAccessDeniedException('You do not have permission to edit this trip');
-        }
-
-        $state = $stateRepository->findOneByLabel('Edit');
-        $trip->setState($state);
-
+                 
         $form = $this->createForm(TripFormType::class, $trip);
         $form->handleRequest($request);
-
+                
+                
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            $this->addFlash('success', 'Trip successfully updated!');
-            return $this->redirectToRoute('app_trip_detail', ['id' => $trip->getId()]);
+            $this->addFlash('success', 'Trip updated !');
+            return $this->redirectToRoute('app_trip_detail');
         }
-
-        return $this->render('trip/edit.html.twig', [
-            'form' => $form->createView(),
+        return $this->render("trip/edit.html.twig", [
+            'form' => $form,
             'trip' => $trip,
         ]);
     }
-
 }
