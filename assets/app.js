@@ -32,25 +32,27 @@ xmarkBtn.addEventListener("click",()=>{
 
 function toggleNavSmScreen(){
 
-    if(navSmScreen.classList.contains("opacity-0")){
-        navSmScreen.classList.remove("opacity-0");
-        navSmScreen.classList.remove("pointer-events-none");
-        navSmScreen.classList.add("opacity-100");
-        navSmScreen.classList.add("pointer-events-auto");
-        burgerBtn.classList.remove("block")
-        burgerBtn.classList.add("hidden")
-        xmarkBtn.classList.remove("hidden")
-        xmarkBtn.classList.add("block")
-    }else{
-        navSmScreen.classList.remove("opacity-100");
-        navSmScreen.classList.remove("pointer-events-auto");
-        navSmScreen.classList.add("opacity-0");
-        navSmScreen.classList.add("pointer-events-none");
-        burgerBtn.classList.add("block")
-        burgerBtn.classList.remove("hidden")
-        xmarkBtn.classList.add("hidden")
-        xmarkBtn.classList.remove("block")
-    }
+    const isHidden = navSmScreen.classList.contains("opacity-0");
+
+    // Bascule des classes pour l'affichage
+    navSmScreen.classList.toggle("opacity-0", !isHidden);
+    navSmScreen.classList.toggle("pointer-events-none", !isHidden);
+    navSmScreen.classList.toggle("opacity-100", isHidden);
+    navSmScreen.classList.toggle("pointer-events-auto", isHidden);
+
+    // Bascule des icônes de burger et xmark
+    burgerBtn.classList.toggle("hidden", isHidden);
+    xmarkBtn.classList.toggle("hidden", !isHidden);
 }
+
+setTimeout(() => {
+
+    const flashMessagesContainer = document.getElementById('flashMessagesContainer');
+
+    if (flashMessagesContainer) {
+        flashMessagesContainer.style.display = 'none';
+    }
+
+}, 3000);
 
 
