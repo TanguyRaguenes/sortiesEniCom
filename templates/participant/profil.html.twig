@@ -4,11 +4,13 @@
 
 {% block body %}
 
-<h1> Profil de {{Username}}</h1>
+<h1> Profil </h1>
 
-<p><strong>Nom :</strong> {{ name }}</p>
-<p><strong>Prénom :</strong> {{ firstName }}</p>
-<p><strong>Email:</strong> {{ email }}</p>
-<p><strong>Téléphone:</strong> {{ phone }}</p>
+<p><strong>Name :</strong> {{ participant.name }}</p>
+<p><strong>First Name :</strong> {{ participant.firstName }}</p>
+<p><strong>Username :</strong> {{ participant.username }}</p>
+<p><strong>Email:</strong> {{ participant.email }}</p>
+<p><strong>Phone:</strong> {{ participant.phone }}</p>
 
+<button type="submit" class="btn">Edit</button>
 {% endblock %}

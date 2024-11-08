@@ -25,11 +25,8 @@ class Trip
     #[ORM\Column]
     private ?float $duration = null;
 
-    /**
-     * @var Collection<int, Place>
-     */
-    #[ORM\OneToMany(targetEntity: Place::class, mappedBy: 'trip')]
-    private Collection $place;
+    #[ORM\ManyToOne(targetEntity: Place::class, inversedBy: 'trip')]
+    private ?Place $place = null;
 
     #[ORM\Column]
     private ?int $seats = null;
@@ -49,16 +46,12 @@ class Trip
     #[ORM\ManyToOne(inversedBy: 'tripsOrganizer')]
     private ?Participant $organizer = null;
 
-    /**
-     * @var Collection<int, Participant>
-     */
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'tripsParticipant')]
     private Collection $participants;
 
     public function __construct()
     {
-        $this->place = new ArrayCollection();
-        $this->participants = new ArrayCollection();
+        $this->participants = new ArrayCollection(); // Correct initialization
     }
 
     public function getId(): ?int
@@ -74,7 +67,6 @@ class Trip
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -86,7 +78,6 @@ class Trip
     public function setDateAndTime(\DateTimeInterface $dateAndTime): static
     {
         $this->dateAndTime = $dateAndTime;
-
         return $this;
     }
 
@@ -98,37 +89,17 @@ class Trip
     public function setDuration(float $duration): static
     {
         $this->duration = $duration;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Place>
-     */
-    public function getPlace(): Collection
+    public function getPlace(): ?Place
     {
         return $this->place;
     }
 
-    public function addPlace(Place $place): static
+    public function setPlace(?Place $place): static
     {
-        if (!$this->place->contains($place)) {
-            $this->place->add($place);
-            $place->setTrip($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlace(Place $place): static
-    {
-        if ($this->place->removeElement($place)) {
-            // set the owning side to null (unless already changed)
-            if ($place->getTrip() === $this) {
-                $place->setTrip(null);
-            }
-        }
-
+        $this->place = $place;
         return $this;
     }
 
@@ -140,7 +111,6 @@ class Trip
     public function setSeats(int $seats): static
     {
         $this->seats = $seats;
-
         return $this;
     }
 
@@ -152,7 +122,6 @@ class Trip
     public function setTextNote(?string $textNote): static
     {
         $this->textNote = $textNote;
-
         return $this;
     }
 
@@ -164,7 +133,6 @@ class Trip
     public function setRegistrationDeadline(\DateTimeInterface $registrationDeadline): static
     {
         $this->registrationDeadline = $registrationDeadline;
-
         return $this;
     }
 
@@ -176,7 +144,6 @@ class Trip
     public function setCampus(?Campus $campus): static
     {
         $this->campus = $campus;
-
         return $this;
     }
 
@@ -188,7 +155,6 @@ class Trip
     public function setState(?State $state): static
     {
         $this->state = $state;
-
         return $this;
     }
 
@@ -200,13 +166,9 @@ class Trip
     public function setOrganizer(?Participant $organizer): static
     {
         $this->organizer = $organizer;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Participant>
-     */
     public function getParticipants(): Collection
     {
         return $this->participants;
@@ -223,8 +185,10 @@ class Trip
 
     public function removeParticipant(Participant $participant): static
     {
-        $this->participants->removeElement($participant);
-
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+        }
+    
         return $this;
     }
 }

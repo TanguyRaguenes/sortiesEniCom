@@ -100,7 +100,15 @@
             {{ form_errors(form.campus) }}
         </div>
 
-
+        <div class="tw_formItem">
+            {{ form_label(form.place, null, {
+                'label_attr': {'class': 'text-xl'}
+            }) }}
+            {{ form_widget(form.place, {
+                'attr': {'class': 'tw_input'}
+            }) }}
+            {{ form_errors(form.place) }}
+        </div>
 
         <button class="tw_btn w-11/12">Submit</button>
     </div>
