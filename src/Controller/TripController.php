@@ -74,6 +74,8 @@ class TripController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Trip successfully added!');
             return $this->redirectToRoute('app_trip_list');
+        }else {
+            $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
         }
 
         return $this->render("trip/edit.html.twig", ['form' => $form]);

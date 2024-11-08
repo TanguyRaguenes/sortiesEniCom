@@ -109,7 +109,8 @@
 
             {# Flash message #}
 
-            <div class="w-full h-10">
+            <div id="flashMessagesContainer" class="w-full h-20 z-50">
+            
                 {% for label, messages in app.flashes %}
 
                     {% for message in messages %}

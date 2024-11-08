@@ -5,103 +5,116 @@
 {% block body %}
 
     <section class="mt-32 pb-32">
-    {{ form_start(form) }}
 
-    <div class="border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto">
+        {{ form_start(form) }}
+
+        <div class="border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto">
+
+            <div class="tw_formItem">
+            {{ form_label(form.organizer,null,{
+                    'label_attr':{'class':'text-xl'}
+                })}}
+            {{ form_widget(form.organizer,{
+                    'attr':{'class':'tw_input'}
+                })}}
+            {{ form_errors(form.organizer) }}
+        </div>
+
+
+            <div class="tw_formItem">
+                {{ form_label(form.state,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.state,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.state) }}
+            </div>
 
         <div class="tw_formItem">
-           {{ form_label(form.organizer,null,{
+            {{ form_label(form.name,null,{
                 'label_attr':{'class':'text-xl'}
             })}}
-           {{ form_widget(form.organizer,{
-                'attr':{'class':'tw_input'}
-            })}}
-           {{ form_errors(form.organizer) }}
-       </div>
-        <div class="tw_formItem">
-            {{ form_label(form.state,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.state,{
+            {{ form_widget(form.name,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.state) }}
+            {{ form_errors(form.name) }}
         </div>
-       <div class="tw_formItem">
-           {{ form_label(form.name,null,{
-               'label_attr':{'class':'text-xl'}
-           })}}
-           {{ form_widget(form.name,{
-               'attr':{'class':'tw_input'}
-           }) }}
-           {{ form_errors(form.name) }}
-       </div>
-        <div class="tw_formItem">
-            {{ form_label(form.dateAndTime,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.dateAndTime,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.dateAndTime) }}
+
+            <div class="tw_formItem">
+                {{ form_label(form.dateAndTime,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.dateAndTime,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.dateAndTime) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.duration,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.duration,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.duration) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.seats,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.seats,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.seats) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.textNote,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.textNote,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.textNote) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.registrationDeadline,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.registrationDeadline,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.registrationDeadline) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.campus,null,{
+                    'label_attr':{'class':'text-xl'}
+                }) }}
+                {{ form_widget(form.campus,{
+                    'attr':{'class':'tw_input'}
+                }) }}
+                {{ form_errors(form.campus) }}
+            </div>
+
+            <div class="tw_formItem">
+                {{ form_label(form.place, null, {
+                    'label_attr': {'class': 'text-xl'}
+                }) }}
+                {{ form_widget(form.place, {
+                    'attr': {'class': 'tw_input'}
+                }) }}
+                {{ form_errors(form.place) }}
+            </div>
+
+            <button class="tw_btn w-11/12">Submit</button>
         </div>
-        <div class="tw_formItem">
-            {{ form_label(form.duration,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.duration,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.duration) }}
-        </div>
-        <div class="tw_formItem">
-            {{ form_label(form.seats,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.seats,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.seats) }}
-        </div>
-        <div class="tw_formItem">
-            {{ form_label(form.textNote,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.textNote,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.textNote) }}
-        </div>
-        <div class="tw_formItem">
-            {{ form_label(form.registrationDeadline,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.registrationDeadline,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.registrationDeadline) }}
-        </div>
-        <div class="tw_formItem">
-            {{ form_label(form.campus,null,{
-                'label_attr':{'class':'text-xl'}
-            }) }}
-            {{ form_widget(form.campus,{
-                'attr':{'class':'tw_input'}
-            }) }}
-            {{ form_errors(form.campus) }}
-        </div>
-        <div class="tw_formItem">
-            {{ form_label(form.place, null, {
-                'label_attr': {'class': 'text-xl'}
-            }) }}
-            {{ form_widget(form.place, {
-                'attr': {'class': 'tw_input'}
-            }) }}
-            {{ form_errors(form.place) }}
-        </div>
-        <button class="tw_btn w-11/12">Submit</button>
-    </div>
-    {{ form_end(form) }}
+
+        {{ form_end(form) }}
 
     </section>
 
