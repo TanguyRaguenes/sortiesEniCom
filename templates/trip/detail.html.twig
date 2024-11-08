@@ -97,11 +97,19 @@
                 <tbody>
                     {% for participant in trip.participants %}
                         <tr>
-                            <td class="px-6 py-3 text-sm text-gray-700">{{ participant.username }}</td>
-                            <td class="px-6 py-3 text-sm text-gray-700">{{ participant.name }}</td>
-                            <td class="px-6 py-3 text-sm text-gray-700">{{ participant.firstName }}</td>
-                            <td class="px-6 py-3 text-sm text-gray-700">{{ participant.phone }}</td>
-                        </tr>
+                            <td class="px-6 py-3 text-sm text-gray-700">
+                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.username }}</a>
+                            </td>
+                            <td class="px-6 py-3 text-sm text-gray-700">
+                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.name }}</a>
+                            </td>
+                            <td class="px-6 py-3 text-sm text-gray-700">
+                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
+                            </td>
+                            <td class="px-6 py-3 text-sm text-gray-700">
+                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.phone }}</a>
+                            </td>
+                        </tr>    
                     {% endfor %}
                 </tbody>
             </table>
