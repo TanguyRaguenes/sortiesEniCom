@@ -3,7 +3,8 @@
 {% block title %}Trip list{% endblock %}
 
 {% block body %}
-<section class="text-gray-600 body-font mt-32 flex flex-col items-center">
+
+<section class="mt-32 pb-32 flex-col items-center">
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGANIZER')  %}
             <a class="tw_btn block w-11/12" href="{{ path('app_trip_create') }}">Trip Create</a>

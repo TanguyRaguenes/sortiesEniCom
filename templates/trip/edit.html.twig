@@ -4,10 +4,10 @@
 
 {% block body %}
 
-
+    <section class="mt-32 pb-32">
     {{ form_start(form) }}
 
-    <div class="mt-32 border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto">
+    <div class="border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto">
 
         <div class="tw_formItem">
            {{ form_label(form.organizer,null,{
@@ -115,7 +115,6 @@
 
     {{ form_end(form) }}
 
-    {# <p>{{user.email}}</p>
-    <p>{{ app.user.email }}</p> #}
+    </section>
 
 {% endblock %}

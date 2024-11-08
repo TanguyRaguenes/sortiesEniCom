@@ -8,57 +8,62 @@
 
 {% block body %}
 
-<div class="mt-32 w-11/12 border-2 border-purple-300 bg-lime-300 mx-auto p-8 rounded-lg shadow-lg flex flex-col items-center lg:flex-row  lg:justify-between">
-    
-    <!-- Image Section -->
-    <div class=" w-11/12 lg:w-1/3 lg:mr-10">
-        <img class="rounded-lg object-contain object-center" src="{{ asset('images/sot.webp') }}" alt="Welcome image">
+<section class="mt-32 pb-32">
+
+    <div class="w-11/12 border-2 border-purple-300 bg-lime-300 mx-auto p-8 rounded-lg shadow-lg flex flex-col items-center lg:flex-row  lg:justify-between">
+        
+        <!-- Image Section -->
+        <div class=" w-11/12 lg:w-1/3 lg:mr-10">
+            <img class="rounded-lg object-contain object-center" src="{{ asset('images/sot.webp') }}" alt="Welcome image">
+        </div>
+
+        <!-- Text Section -->
+        <div class="w-1/2 flex flex-col items-center justify-center text-center">
+
+            <h1 class="text-2xl lg:text-4xl font-bold text-purple-700 mb-4">Welcome to SortiesEniCom!</h1>
+
+            <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
+
+                Looking for fun, study buddies, or just a good time? <br><br>
+
+                <span class="font-semibold">SortiesEniCom</span> connects students for events, adventures, and new friendships.<br><br>
+                
+                Browse, create events, and invite others to join you! Whether it's a coffee, a movie night, or a hike, 
+                
+                <span class="font-semibold">SortiesEniCom</span> makes it easy to connect and unwind.<br><br>
+
+                <span class="font-semibold text-purple-700">Join now!</span> Explore and make the most of your campus life.
+            </p>
+        </div>
     </div>
 
-    <!-- Text Section -->
-    <div class="w-1/2 flex flex-col items-center justify-center text-center">
+    <div class="w-full mt-10 text-center">
+        <h2 class="text-2xl lg:text-4xl font-bold text-purple-700 mb-4">What's new in the multiverse ?</h2>
+        
+        <!-- News 1 -->
+        <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
+            <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
+                🚀 **Breaking news from the Space Opera:** "Star Wars" fans are buzzing after the announcement of a new "Obi-Wan Kenobi" series. Will the Jedi Master finally find peace or will he continue to haunt our screens with his wisdom and lightsaber skills? Only time will tell... <i>May the Force be with you!</i>
+            </p>
+        </div>
 
-        <h1 class="text-2xl lg:text-4xl font-bold text-purple-700 mb-4">Welcome to SortiesEniCom!</h1>
+        <!-- News 2 -->
+        <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
+            <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
+                🦸‍♂️ **Marvel's latest mischief:** Deadpool 3 is officially in production, and it's confirmed! Not only will the merc with the mouth be back, but rumors suggest we might get a crossover with some of the X-Men we thought were retired... Expect chaos, chimichangas, and *probably* no fourth wall left standing!
+            </p>
+        </div>
 
-        <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
+        <!-- News 3 -->
+        <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
+            <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
+                🧑‍💻 **Tech Corner:** Ever wonder if robots are planning to take over the world? Turns out, they might already be better at video games than us! A new AI just beat the best human player at "Super Mario Bros" — we're not sure whether to celebrate or panic. Keep your eyes on the robots... they're watching you! 🤖
+            </p>
+        </div>
 
-            Looking for fun, study buddies, or just a good time? <br><br>
-
-            <span class="font-semibold">SortiesEniCom</span> connects students for events, adventures, and new friendships.<br><br>
-            
-            Browse, create events, and invite others to join you! Whether it's a coffee, a movie night, or a hike, 
-            
-            <span class="font-semibold">SortiesEniCom</span> makes it easy to connect and unwind.<br><br>
-
-            <span class="font-semibold text-purple-700">Join now!</span> Explore and make the most of your campus life.
-        </p>
-    </div>
-</div>
-
-<div class="w-full mt-10 text-center">
-    <h2 class="text-2xl lg:text-4xl font-bold text-purple-700 mb-4">What's new in the multiverse ?</h2>
-    
-    <!-- News 1 -->
-    <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
-        <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
-            🚀 **Breaking news from the Space Opera:** "Star Wars" fans are buzzing after the announcement of a new "Obi-Wan Kenobi" series. Will the Jedi Master finally find peace or will he continue to haunt our screens with his wisdom and lightsaber skills? Only time will tell... <i>May the Force be with you!</i>
-        </p>
     </div>
 
-    <!-- News 2 -->
-    <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
-        <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
-            🦸‍♂️ **Marvel's latest mischief:** Deadpool 3 is officially in production, and it's confirmed! Not only will the merc with the mouth be back, but rumors suggest we might get a crossover with some of the X-Men we thought were retired... Expect chaos, chimichangas, and *probably* no fourth wall left standing!
-        </p>
-    </div>
-
-    <!-- News 3 -->
-    <div class="w-11/12 border-2 border-purple-300 rounded-lg mx-auto bg-gray-100 mb-4">
-        <p class="text-sm lg:text-xl text-gray-700 leading-relaxed">
-            🧑‍💻 **Tech Corner:** Ever wonder if robots are planning to take over the world? Turns out, they might already be better at video games than us! A new AI just beat the best human player at "Super Mario Bros" — we're not sure whether to celebrate or panic. Keep your eyes on the robots... they're watching you! 🤖
-        </p>
-    </div>
-</div>
+</section>
 
 
 {% endblock %}
