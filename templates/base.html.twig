@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -11,43 +12,177 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            {% if label == 'success' %}
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                    <span class="font-medium">Success!</span> {{ message }}
-                </div>
-            {% elseif label == 'error' %}
-                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                    <span class="font-medium">Error!</span> {{ message }}
-                </div>
-            {% elseif label == 'info' %}
-                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                    <span class="font-medium">Info!</span> {{ message }}
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
 
-    <header class="text-gray-600 body-font">
-        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    <body class="pb-20">
+
+        <header class="bg-purple-300 w-full h-20 rounded-b-lg fixed top-0 left-0 z-50">
+
+            {# Bouton burger #}
+
+            <svg id="burgerBtn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="block lg:hidden h-10 w-10 fixed top-5 right-5 hover:scale-105 hover:cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+
+            <svg id="xmarkBtn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hidden lg:hidden h-10 w-10 fixed top-5 right-5 hover:scale-105 hover:cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+
+
+
+            {# Navbar pour les grands écrans #}
+
+            <div class="w-full h-full flex flex-row justify-center items-center">
+
+                <svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 ml-4 mr-4">
+                    <!-- Cadre de la lunette gauche -->
+                    <rect x="20" y="30" width="60" height="40" rx="8" ry="8" fill="#333" stroke="#000" stroke-width="5"/>
+
+                    <!-- Verre de la lunette gauche -->
+                    <rect x="25" y="35" width="50" height="30" rx="5" ry="5" fill="#88c0d0" opacity="0.5" />
+
+                    <!-- Pont de la monture -->
+                    <rect x="85" y="45" width="30" height="10" fill="#333" />
+
+                    <!-- Cadre de la lunette droite -->
+                    <rect x="120" y="30" width="60" height="40" rx="8" ry="8" fill="#333" stroke="#000" stroke-width="5"/>
+
+                    <!-- Verre de la lunette droite -->
+                    <rect x="125" y="35" width="50" height="30" rx="5" ry="5" fill="#88c0d0" opacity="0.5" />
+
+                    <!-- Branches des lunettes -->
+                    <rect x="0" y="40" width="20" height="8" fill="#333" />
+                    <rect x="180" y="40" width="20" height="8" fill="#333" />
                 </svg>
-                <span class="ml-3 text-xl">Tailblocks</span>
-            </a>
-            <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_main') }}">Main</a>
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_login') }}">Login</a>
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_logout') }}">Logout</a>
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_register') }}">Register</a>
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_trip_list') }}">Trip List</a>
-                <a class="mr-5 hover:text-gray-900" href="{{ path('app_trip_create') }}">Trip Create</a>
+
+                <P class="text-center font-PressStart2P text-white" >Let’s connect with some geeks !</p>
+        
+                <nav id="navLgScreen" class="hidden w-10/12 h-full lg:flex lg:flex-row lg:justify-center lg:items-center">
+                    
+                    {% if not is_granted('ROLE_USER') %}
+                    <a class="tw_link_1" href="{{ path('app_login') }}">Login</a>
+                    <a class="tw_link_1" href="{{ path('app_register') }}">Register</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="tw_link_1" href="{{ path('app_main_welcome') }}">Welcome</a>
+                        <a class="tw_link_1" href="{{ path('app_trip_list') }}">Trip List</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGANIZER')  %}
+                        <a class="tw_link_1" href="{{ path('app_trip_create') }}">Trip Create</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="tw_link_1" href="{{ path('app_logout') }}">Logout</a>
+                    {% endif %}
+                    
+                    
+                </nav>
+            
+            </div>
+            
+
+            {# Navbar pour les petits écrans #}
+
+            <nav id="navSmScreen" class="z-50 w-full fixed top-20 lg:hidden flex flex-col items-center bg-lime-300 transform transition-all duration-1000 ease-out opacity-0 pointer-events-none">
+                
+                {% if not is_granted('ROLE_USER') %}
+                <a class="tw_link_2" href="{{ path('app_login') }}">Login</a>
+                <a class="tw_link_2" href="{{ path('app_register') }}">Register</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_USER') %}
+                    <a class="tw_link_2" href="{{ path('app_main_welcome') }}">Welcome</a>
+                    <a class="tw_link_2" href="{{ path('app_trip_list') }}">Trip List</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGANIZER')  %}
+                    <a class="tw_link_2" href="{{ path('app_trip_create') }}">Trip Create</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_USER') %}
+                    <a class="tw_link_2" href="{{ path('app_logout') }}">Logout</a>
+                {% endif %}
+                
+                
             </nav>
-        </div>
-    </header>
+
+            {# Flash message #}
+
+            <div class="w-full h-10">
+                {% for label, messages in app.flashes %}
+
+                    {% for message in messages %}
+
+                        {% if label == 'success' %}
+                            <div class="w-full text-sm text-green-800 rounded-lg bg-green-50 text-center" role="alert">
+                                <span class="font-medium">Success!</span> {{ message }}
+                            </div>
+                        {% elseif label == 'error' %}
+                            <div class="w-full text-sm text-red-800 rounded-lg bg-red-50 text-center" role="alert">
+                                <span class="font-medium">Error!</span> {{ message }}
+                            </div>
+                        {% elseif label == 'info' %}
+                            <div class="w-full text-sm text-blue-800 rounded-lg bg-blue-50 text-center" role="alert">
+                                <span class="font-medium">Info!</span> {{ message }}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% endfor %}
+            </div>
+
+        </header>
+       
+       {# Footer #}
+
+       <footer class="z-50 fixed bottom-0 left-0 w-full h-14 border-2 bg-purple-300 rounded-t-lg flex flex-row items-center justify-between">
+       
+            <div class="h-10 w-10 ml-2">
+                 <img class=" rounded-full object-contain object-center hover:scale-105 hover:cursor-pointer" src="{{ asset('images/eniLogo.webp') }}" alt="logo eni">
+            </div>
+
+             <p class="ml-4 font-PressStart2P text-gray-500">© 2024 SortiesEniCom</p>
+
+            <div class="flex flex-row items-center text-gray-500">
+
+                <svg class="h-10 w-10 ml-4 mr-4 fill-current hover:scale-105 hover:cursor-pointer" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 310 310" xml:space="preserve">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> 
+                        <g id="XMLID_826_"> 
+                            <path id="XMLID_827_" d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73 c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783 c-12.381-12.098-29.197-18.983-46.581-18.983c-36.695,0-66.549,29.853-66.549,66.547c0,2.89,0.183,5.764,0.545,8.598 C101.163,99.244,58.83,76.863,29.76,41.204c-1.036-1.271-2.632-1.956-4.266-1.825c-1.635,0.128-3.104,1.05-3.93,2.467 c-5.896,10.117-9.013,21.688-9.013,33.461c0,16.035,5.725,31.249,15.838,43.137c-3.075-1.065-6.059-2.396-8.907-3.977 c-1.529-0.851-3.395-0.838-4.914,0.033c-1.52,0.871-2.473,2.473-2.513,4.224c-0.007,0.295-0.007,0.59-0.007,0.889 c0,23.935,12.882,45.484,32.577,57.229c-1.692-0.169-3.383-0.414-5.063-0.735c-1.732-0.331-3.513,0.276-4.681,1.597 c-1.17,1.32-1.557,3.16-1.018,4.84c7.29,22.76,26.059,39.501,48.749,44.605c-18.819,11.787-40.34,17.961-62.932,17.961 c-4.714,0-9.455-0.277-14.095-0.826c-2.305-0.274-4.509,1.087-5.294,3.279c-0.785,2.193,0.047,4.638,2.008,5.895 c29.023,18.609,62.582,28.445,97.047,28.445c67.754,0,110.139-31.95,133.764-58.753c29.46-33.421,46.356-77.658,46.356-121.367 c0-1.826-0.028-3.67-0.084-5.508c11.623-8.757,21.63-19.355,29.773-31.536c1.237-1.85,1.103-4.295-0.33-5.998 C307.394,57.037,305.009,56.486,302.973,57.388z"></path> 
+                        </g> 
+                    </g>
+                </svg>
+
+                <svg class="h-10 w-10 ml-4 mr-4 fill-current hover:scale-105 hover:cursor-pointer" fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> 
+                        <path d="M12 2.03998C6.5 2.03998 2 6.52998 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.84998C10.44 7.33998 11.93 5.95998 14.22 5.95998C15.31 5.95998 16.45 6.14998 16.45 6.14998V8.61998H15.19C13.95 8.61998 13.56 9.38998 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C15.9164 21.5878 18.0622 20.3855 19.6099 18.57C21.1576 16.7546 22.0054 14.4456 22 12.06C22 6.52998 17.5 2.03998 12 2.03998Z"></path> 
+                    </g>
+                </svg>
+
+                <svg class="h-10 w-10 ml-4 mr-4 fill-current hover:scale-105 hover:cursor-pointer" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> <title>instagram [#167]</title> 
+                        <desc>Created with Sketch.</desc> 
+                        <defs> </defs> 
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
+                            <g class="fill-current"id="Dribbble-Light-Preview" transform="translate(-340.000000, -7439.000000)" fill="#000000"> 
+                                <g id="icons" transform="translate(56.000000, 160.000000)"> 
+                                    <path d="M289.869652,7279.12273 C288.241769,7279.19618 286.830805,7279.5942 285.691486,7280.72871 C284.548187,7281.86918 284.155147,7283.28558 284.081514,7284.89653 C284.035742,7285.90201 283.768077,7293.49818 284.544207,7295.49028 C285.067597,7296.83422 286.098457,7297.86749 287.454694,7298.39256 C288.087538,7298.63872 288.809936,7298.80547 289.869652,7298.85411 C298.730467,7299.25511 302.015089,7299.03674 303.400182,7295.49028 C303.645956,7294.859 303.815113,7294.1374 303.86188,7293.08031 C304.26686,7284.19677 303.796207,7282.27117 302.251908,7280.72871 C301.027016,7279.50685 299.5862,7278.67508 289.869652,7279.12273 M289.951245,7297.06748 C288.981083,7297.0238 288.454707,7296.86201 288.103459,7296.72603 C287.219865,7296.3826 286.556174,7295.72155 286.214876,7294.84312 C285.623823,7293.32944 285.819846,7286.14023 285.872583,7284.97693 C285.924325,7283.83745 286.155174,7282.79624 286.959165,7281.99226 C287.954203,7280.99968 289.239792,7280.51332 297.993144,7280.90837 C299.135448,7280.95998 300.179243,7281.19026 300.985224,7281.99226 C301.980262,7282.98483 302.473801,7284.28014 302.071806,7292.99991 C302.028024,7293.96767 301.865833,7294.49274 301.729513,7294.84312 C300.829003,7297.15085 298.757333,7297.47145 289.951245,7297.06748 M298.089663,7283.68956 C298.089663,7284.34665 298.623998,7284.88065 299.283709,7284.88065 C299.943419,7284.88065 300.47875,7284.34665 300.47875,7283.68956 C300.47875,7283.03248 299.943419,7282.49847 299.283709,7282.49847 C298.623998,7282.49847 298.089663,7283.03248 298.089663,7283.68956 M288.862673,7288.98792 C288.862673,7291.80286 291.150266,7294.08479 293.972194,7294.08479 C296.794123,7294.08479 299.081716,7291.80286 299.081716,7288.98792 C299.081716,7286.17298 296.794123,7283.89205 293.972194,7283.89205 C291.150266,7283.89205 288.862673,7286.17298 288.862673,7288.98792 M290.655732,7288.98792 C290.655732,7287.16159 292.140329,7285.67967 293.972194,7285.67967 C295.80406,7285.67967 297.288657,7287.16159 297.288657,7288.98792 C297.288657,7290.81525 295.80406,7292.29716 293.972194,7292.29716 C292.140329,7292.29716 290.655732,7290.81525 290.655732,7288.98792" id="instagram-[#167]"> </path> 
+                                </g> 
+                            </g> 
+                        </g> 
+                    </g>
+                </svg>
+                
+            </div>
+       </footer>
+
         {% block body %}{% endblock %}
     </body>
 </html>

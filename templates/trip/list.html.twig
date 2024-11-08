@@ -3,7 +3,12 @@
 {% block title %}Trip list{% endblock %}
 
 {% block body %}
-<section class="text-gray-600 body-font">
+<section class="text-gray-600 body-font mt-32 flex flex-col items-center">
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGANIZER')  %}
+            <a class="tw_btn block w-11/12" href="{{ path('app_trip_create') }}">Trip Create</a>
+        {% endif %}
+
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-10">
             <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Trip List</h2>
