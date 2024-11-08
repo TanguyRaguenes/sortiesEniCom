@@ -51,7 +51,7 @@ class Trip
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection(); // Correct initialization
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
