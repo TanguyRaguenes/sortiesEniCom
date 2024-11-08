@@ -39,35 +39,28 @@ class TripController extends AbstractController
     #[Route('/trip/create', name: 'app_trip_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, StateRepository $stateRepository): Response
     {
-
-        $trip=new Trip();
+        $trip = new Trip();
         $user = $this->getUser();
         $organizer = $participantRepository->findOneByEmail($user->getEmail());
         $state = $stateRepository->findOneByLabel('Create');
-        // dd($participant);
 
         $trip->setOrganizer($organizer);
         $trip->setState($state);
 
-
-        $form = $this->createForm(TripFormType::class, $trip,[
+        $form = $this->createForm(TripFormType::class, $trip, [
             'organizer' => $organizer,
             'state' => $state,
         ]);
         $form->handleRequest($request);
 
-        
-
-        if($form->isSubmitted() && $form->isValid()){
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trip);
             $entityManager->flush();
-            $this->addFlash('success', 'Trip successfully added !');
+            $this->addFlash('success', 'Trip successfully added!');
             return $this->redirectToRoute('app_trip_list');
         }
 
-        return $this->render("trip/edit.html.twig",['form'=>$form]);
-
+        return $this->render("trip/edit.html.twig", ['form' => $form]);
     }
 
     #[Route('/trip/detail/{id}', name: 'app_trip_detail', requirements: ['id' => '\d+'])]
@@ -77,5 +70,83 @@ class TripController extends AbstractController
         return $this->render('trip/detail.html.twig', [
             'trip' => $trip,
         ]);
+    }
+
+    #[Route('/trip/{id}/participate', name: 'app_trip_participate')]
+    public function participate(int $id, TripRepository $tripRepository, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    {
+        $trip = $tripRepository->find($id);
+        $user = $this->getUser();
+
+        if (!$user instanceof Participant) {
+            $user = $participantRepository->findOneByEmail($user->getEmail());
+            if (!$user) {
+                throw new \LogicException('User not found as a Participant.');
+            }
+        }
+
+        if ($trip->getParticipants()->contains($user)) {
+            $this->addFlash('warning', 'You are already participating in this trip.');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+        }
+
+        $trip->addParticipant($user);
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'You have successfully registered for this trip.');
+        return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+    }
+
+    #[Route('/trip/{id}/remove', name: 'app_trip_participate_remove')]
+    public function unparticipate(int $id, TripRepository $tripRepository, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    {
+        $trip = $tripRepository->find($id);
+        $user = $this->getUser();
+
+        if (!$user instanceof Participant) {
+            $user = $participantRepository->findOneByEmail($user->getEmail());
+            if (!$user) {
+                throw new \LogicException('User not found as a Participant.');
+            }
+        }
+
+        if (!$trip->getParticipants()->contains($user)) {
+            $this->addFlash('error', 'You are not participating in this trip.');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+        }
+
+        $trip->removeParticipant($user);
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'You have successfully unregistered from this trip.');
+        return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+    }
+
+    #[Route('/trip/delete/{id}', name: 'app_trip_delete')]
+    public function delete(int $id, TripRepository $tripRepository, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    {
+        $trip = $tripRepository->find($id);
+
+        if (!$trip) {
+            throw $this->createNotFoundException('Trip not found');
+        }
+
+        $user = $this->getUser();
+        $participant = $participantRepository->findOneByEmail($user->getEmail());
+        if (!$participant) {
+            throw $this->createAccessDeniedException('You must be a organizer to delete this trip');
+        }
+
+        if ($trip->getOrganizer() !== $participant) {
+            throw $this->createAccessDeniedException('You do not have permission to delete this trip');
+        }
+
+        $entityManager->remove($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Trip successfully deleted!');
+        return $this->redirectToRoute('app_trip_list');
     }
 }

@@ -51,7 +51,7 @@ class Trip
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->participants = new ArrayCollection(); // Correct initialization
     }
 
     public function getId(): ?int
@@ -67,7 +67,6 @@ class Trip
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -79,7 +78,6 @@ class Trip
     public function setDateAndTime(\DateTimeInterface $dateAndTime): static
     {
         $this->dateAndTime = $dateAndTime;
-
         return $this;
     }
 
@@ -91,7 +89,6 @@ class Trip
     public function setDuration(float $duration): static
     {
         $this->duration = $duration;
-
         return $this;
     }
 
@@ -103,7 +100,6 @@ class Trip
     public function setPlace(?Place $place): static
     {
         $this->place = $place;
-
         return $this;
     }
 
@@ -115,7 +111,6 @@ class Trip
     public function setSeats(int $seats): static
     {
         $this->seats = $seats;
-
         return $this;
     }
 
@@ -127,7 +122,6 @@ class Trip
     public function setTextNote(?string $textNote): static
     {
         $this->textNote = $textNote;
-
         return $this;
     }
 
@@ -139,7 +133,6 @@ class Trip
     public function setRegistrationDeadline(\DateTimeInterface $registrationDeadline): static
     {
         $this->registrationDeadline = $registrationDeadline;
-
         return $this;
     }
 
@@ -151,7 +144,6 @@ class Trip
     public function setCampus(?Campus $campus): static
     {
         $this->campus = $campus;
-
         return $this;
     }
 
@@ -163,7 +155,6 @@ class Trip
     public function setState(?State $state): static
     {
         $this->state = $state;
-
         return $this;
     }
 
@@ -175,7 +166,6 @@ class Trip
     public function setOrganizer(?Participant $organizer): static
     {
         $this->organizer = $organizer;
-
         return $this;
     }
 
@@ -195,8 +185,10 @@ class Trip
 
     public function removeParticipant(Participant $participant): static
     {
-        $this->participants->removeElement($participant);
-
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+        }
+    
         return $this;
     }
 }

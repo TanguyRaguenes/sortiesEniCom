@@ -46,8 +46,8 @@ class TripFormType extends AbstractType
             ])
             ->add('place', EntityType::class, [
                 'class' => Place::class,
-                'choice_label' => 'name',  // Assurez-vous que le champ `name` est bien défini dans `Place`
-                'placeholder' => 'Select a place', // Place a placeholder here
+                'choice_label' => 'name',
+                'placeholder' => 'Select a place',
             ])
         ;
     }
