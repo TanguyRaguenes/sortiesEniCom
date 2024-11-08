@@ -10,11 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ParticipantRepository;
 
 
 class ParticipantController extends AbstractController
 {
-    #[Route('', name: 'index')]
+    #[Route('/participant', name: 'app_participant')]
     public function index(): Response
     {
         return $this->render('participant/index.html.twig', [
@@ -50,20 +51,51 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/participant/profil', name: 'app_participant_profil')]
-    public function profil(): Response
+    public function profil(ParticipantRepository $participantRepository): Response
     {
 
         $user = $this->getUser();
-        dd($user);
+        
+        $participant = $participantRepository->findOneByEmail($user->getEmail());
+        // dd($participant);
 
-        return $this->render('participant/profil.html.twig', [
+        return $this->render('participant/profil.html.twig',[
             'controller_name' => 'ParticipantController',
-            'user' => $user
+            'participant' => $participant
+
+
         ]);
     }
+            #[Route('/participant/edit/{id}', name: 'app_participant_edit')]
+                public function update(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+                {
+                    $participant = $participantRepository->find($id);
 
+                    if (!$participant) {
+                        throw $this->createNotFoundException('Participant non trouvé');
+                    }
 
-}
+                    $form = $this->createForm(ParticipantFormType::class, $participant);
+                    $form->handleRequest($request);
+                    $form = $this->createForm(ParticipantFormType::class, $participant, [
+                    'is_edit' => true,
+                     ]);
+                   
+                    
+                    
+
+                    if ($form->isSubmitted() && $form->isValid()) {
+                        $entityManager->flush();
+                        $this->addFlash('success', 'Participant updated !');
+                        return $this->redirectToRoute('app_participant_profil');
+                    }
+
+                    return $this->render("participant/edit.html.twig", [
+                        'form' => $form,
+                        'participant' => $participant
+                    ]);
+    }
+    }
 
 
 
