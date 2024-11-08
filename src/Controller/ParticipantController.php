@@ -74,8 +74,6 @@ class ParticipantController extends AbstractController
                     if (!$participant) {
                         throw $this->createNotFoundException('Participant non trouvé');
                     }
-
-                    $form = $this->createForm(ParticipantFormType::class, $participant);
                      
                     $form = $this->createForm(ParticipantFormType::class, $participant, [
                     'is_edit' => true,
