@@ -13,7 +13,6 @@ class SecurityController extends AbstractController
     #[Route(path: '/', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
-        // Check if the user is already authenticated
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_main');
         }
@@ -21,7 +20,6 @@ class SecurityController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        // Return the login page without the navigation bar
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
