@@ -14,8 +14,6 @@
             <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Trip List</h2>
             <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Join us!</h1>
         </div>
-
-        <!-- Formulaire de filtre de campus -->
         <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
             <label for="campus">Filter by Campus:</label>
             <select name="campus" id="campus" onchange="this.form.submit()">
@@ -25,7 +23,6 @@
                 {% endfor %}
             </select>
         </form>
-
         <div class="flex flex-wrap -m-4">
             {% for trip in trips %}
                 <div class="p-4 md:w-1/3">
