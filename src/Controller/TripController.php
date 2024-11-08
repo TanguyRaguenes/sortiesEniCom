@@ -165,7 +165,7 @@ class TripController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
             $this->addFlash('success', 'Trip updated !');
-            return $this->redirectToRoute('app_trip_detail');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $trip->getId()]);
         }
         return $this->render("trip/edit.html.twig", [
             'form' => $form,
