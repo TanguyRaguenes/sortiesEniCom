@@ -76,11 +76,11 @@ class ParticipantController extends AbstractController
                     }
 
                     $form = $this->createForm(ParticipantFormType::class, $participant);
-                    $form->handleRequest($request);
+                     
                     $form = $this->createForm(ParticipantFormType::class, $participant, [
                     'is_edit' => true,
                      ]);
-                   
+                    $form->handleRequest($request);
                     
                     
 
@@ -92,7 +92,7 @@ class ParticipantController extends AbstractController
 
                     return $this->render("participant/edit.html.twig", [
                         'form' => $form,
-                        'participant' => $participant
+                        'participant' => $participant,
                     ]);
     }
     }
