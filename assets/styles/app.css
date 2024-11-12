@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.tw_h1 {
+  @apply text-2xl font-semibold font-PressStart2P text-lime-500;
+}
+
 .tw_btn {
   @apply h-14 mt-4 mb-4 text-white bg-gradient-to-r from-purple-400 to-lime-400 shadow-lg border-2 border-purple-300 rounded-md 
     hover:scale-105 hover:shadow-2xl hover:border-lime-300 hover:from-lime-400 hover:to-purple-400 hover:cursor-pointer 

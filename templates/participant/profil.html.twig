@@ -4,30 +4,72 @@
 
 {% block body %}
 
-<section class="mt-32 pb-32">
+<section class="mt-32 pb-32 w-full h-full flex flex-col items-center">
+
+    <h1 class="tw_h1"> Welcome {{ participant.username }} in your lair !</h1>
 
     <a class="tw_btn block w-1/2 mx-auto" href="{{ path('app_participant_edit', {'id': participant.id}) }}">Edit</a>
 
-    <h1> Profil </h1>
+    
+
+
     {% if participant.photoProfil %}
-        <div>
-        <h2>Profil Picture</h2>
-        <img 
-    src="{{ asset('uploads/photos/' ~ participant.photoProfil) }}" 
-    alt="{{ participant.username }}'s Profile" 
-    class="max-w-[200px] max-h-[200px] object-cover"/>
-    </div>
+        <div class="h-60 w-60 mb-4">
+            <img src="{{ asset('uploads/photos/' ~ participant.photoProfil) }}" alt="{{ participant.username }}'s Profile" class="rounded-xl w-full h-full object-cover"/>
+    
+        </div>
     {%else%}
     <p> No Profil picture</p>
     {%endif%}
 
-    <p><strong>Name :</strong> {{ participant.name }}</p>
-    <p><strong>First Name :</strong> {{ participant.firstName }}</p>
-    <p><strong>Username :</strong> {{ participant.username }}</p>
-    <p><strong>Email:</strong> {{ participant.email }}</p>
-    <p><strong>Phone:</strong> {{ participant.phone }}</p>
 
-    <button type="submit" class="btn">Edit</button>
+    <div class="w-11/12 flex flex-col items-center bg-lime-300 rounded-xl">
+
+        <table class="w-full rounded-2xl overflow-hidden">
+
+            <thead>
+                <tr >
+                    <th class="tw_th">PROPERTY</th>
+                    <th class="tw_th">VALUE</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+                <tr class="border-b-2 border-white">
+                    <td class="tw_td_property">Name</td>
+                    <td class="tw_td_value">{{ participant.name }}</td>
+                </tr>
+
+                <tr class="border-b-2 border-white">
+                    <td class="tw_td_property">First Name</td>
+                    <td class="tw_td_value">{{ participant.firstName }}</td>
+                </tr>
+
+                <tr class="border-b-2 border-white">
+                    <td class="tw_td_property">Username</td>
+                    <td class="tw_td_value">{{ participant.username }}</td>
+                </tr>
+
+                <tr class="border-b-2 border-white">
+                    <td class="tw_td_property">Email</td>
+                    <td class="tw_td_value">{{ participant.email }}</td>
+                </tr>
+
+                <tr class="border-b-2 border-white">
+                    <td class="tw_td_property">Phone</td>
+                    <td class="tw_td_value">0{{ participant.phone}}</td>
+                </tr>
+
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+
 
 </section>
 
