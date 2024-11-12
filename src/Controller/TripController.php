@@ -22,9 +22,9 @@ class TripController extends AbstractController
     $campuses = $campusRepository->findAll();
     $selectedCampusId = $request->query->get('campus');
     $filter = $request->query->get('filter');
+    $dateOrder = $request->query->get('date_order', 'asc');
     $user = $this->getUser();
 
-    // Récupérer le Participant correspondant au User connecté
     $participant = $participantRepository->findOneByEmail($user->getEmail());
 
     $criteria = [];
@@ -34,10 +34,8 @@ class TripController extends AbstractController
     }
 
     if ($filter === 'created' && $participant) {
-        // Filtrer par organisateur
         $trips = $tripRepository->findTripsByOrganizer($participant, $criteria);
     } elseif ($filter === 'participate' && $participant) {
-        // Filtrer par participant
         $trips = $tripRepository->findTripsByParticipant($participant, $criteria);
     } else {
         $trips = $tripRepository->findBy($criteria);
@@ -48,6 +46,7 @@ class TripController extends AbstractController
         'campuses' => $campuses,
         'selectedCampusId' => $selectedCampusId,
         'selectedFilter' => $filter,
+        'selectedDateOrder' => $dateOrder
     ]);
 }
 
