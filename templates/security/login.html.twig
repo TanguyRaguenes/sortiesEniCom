@@ -4,37 +4,45 @@
 
 {% block body %}
 
-    <section class="mt-32 pb-32 w-full h-full flex flex-col justify-center text-center">
+    <section class="mt-32 pb-32 text-center">
 
-        <h1 class="text-3xl font-semibold mb-6 text-purple-600">Please sign in</h1>
+        <h1 class="tw_h1 mb-4">Login</h1>
 
 
-        <form class="w-1/2 bg-gray-50 shadow-xl flex flex-col items-center border-2 border-purple-300 rounded-lg mx-auto p-6" action="" method="post">
+        <form class="tw_form pt-4" action="" method="post">
+            
+            {# EMAIL #}
+            <div class="tw_formItem mb-4" >
 
-            <div class="w-full flex flex-col items-center" >
-                <label for="username" class="tw_p">Email</label>
-                <input type="email" name="_username" id="username" value="{{ last_username }}"
-                    class="tw_input"
-                    autocomplete="email" required autofocus>
+                <label for="username" class="text-xl">Email</label>
+
+                <input class="tw_input" type="email" name="_username" id="username" value="{{ last_username }}" autocomplete="email" required autofocus>
+
             </div>
 
-            <div class="w-full flex flex-col items-center">
-                <label for="password" class="tw_p">Password</label>
-                <input type="password" name="_password" id="password"
-                    class="tw_input"
-                    autocomplete="current-password" required>
+            {# PASSWORD #}
+            <div class="tw_formItem mb-4">
+
+                <label for="password" class="text-xl">Password</label>
+
+                <input class="tw_input" type="password" name="_password" id="password" autocomplete="current-password" required>
+
             </div>
 
-            <div class="flex items-center">
-                <input type="checkbox" name="_remember_me" id="remember_me"
-                    class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-purple-300 rounded-lg bg-white transition duration-300 ease-in-out transform hover:scale-105">
-                <label for="remember_me" class="ml-2 text-lg text-gray-900">Se souvenir de moi</label>
+            {# REMEMBER ME #}
+
+            <div class="flex flex-row items-center">
+                <input class="h-5 w-5" type="checkbox" name="_remember_me" id="remember_me">
+                <label class="ml-2 text-xl text-gray-900" for="remember_me">Se souvenir de moi</label>
             </div>
 
+
+            {# CSRF TOKEN #}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
+            {# SUBMIT #}
             <button type="submit" class="tw_btn w-11/12">
-                Sign in
+                Submit
             </button>
 
         </form>

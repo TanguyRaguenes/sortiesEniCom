@@ -191,4 +191,10 @@ class Trip
     
         return $this;
     }
+
+    public function isRegistrationOpen(): bool
+    {
+        $currentDate = new \DateTime();
+        return $currentDate <= $this->registrationDeadline;
+    }
 }
