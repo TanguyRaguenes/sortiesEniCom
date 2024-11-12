@@ -59,7 +59,9 @@
 
                 <tr class="border-b-2 border-white">
                     <td class="tw_td_property">Phone</td>
-                    <td class="tw_td_value">0{{ participant.phone}}</td>
+                    <td class="tw_td_value">
+                        0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}
+                    </td>
                 </tr>
 
 
@@ -67,8 +69,6 @@
 
         </table>
     </div>
-
-
 
 
 </section>

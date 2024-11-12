@@ -4,13 +4,17 @@
 
 {% block body %}
 
-    <section class="mt-32 pb-32">
+    <section class="mt-32 pb-32 text-center">
 
-        <h2>Modification !</h2>
+        <a class="tw_btn block w-1/2 mx-auto" href="{{ path('app_participant_profil')}}">Back</a>
 
-        {{ form_start(form) }}
+        <h1 class="tw_h1 mt-4 mb-4">Let's customize your lair !</h1>
 
-            <div class="border-2 rounded-lg w-11/12 bg-yellow-200 flex flex-col items-center mx-auto mt-10">
+            
+
+            {{ form_start(form) }}
+
+            <div class="border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto">
 
                 <div class="tw_formItem">
                     {{ form_label(form.name,null,{
@@ -62,11 +66,23 @@
                     {{ form_errors(form.phone) }}
                 </div>
 
-                <button class="tw_btn">Envoyer !</button>
+                <div class="tw_formItem">
+                    {{ form_label(form.photoProfil,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.photoProfil,{
+                        'attr':{}
+                    }) }}
+                    {{ form_errors(form.photoProfil) }}
+                </div>
 
-            </div>
+                <button class="tw_btn w-11/12">Envoyer !</button>
 
-        {{ form_end(form) }}
+                </div>
+
+            {{ form_end(form) }}
+
+        
 
     </section>
 
