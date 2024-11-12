@@ -22,7 +22,7 @@ class TripController extends AbstractController
         $campuses = $campusRepository->findAll();
         $selectedCampusId = $request->query->get('campus');
         $filter = $request->query->get('filter');
-        $selectedDateOrder = $request->query->get('date_order', 'asc'); // Changé de $dateOrder à $selectedDateOrder
+        $selectedDateOrder = $request->query->get('date_order', 'asc');
         $user = $this->getUser();
         $showPastTrips = $request->query->get('past_trips');
 
@@ -55,7 +55,7 @@ class TripController extends AbstractController
                ->setParameter('participant', $participant);
         }
 
-        $qb->orderBy('t.dateAndTime', $selectedDateOrder); // Utilisation de $selectedDateOrder ici
+        $qb->orderBy('t.dateAndTime', $selectedDateOrder);
 
         $trips = $qb->getQuery()->getResult();
 
@@ -64,7 +64,7 @@ class TripController extends AbstractController
             'campuses' => $campuses,
             'selectedCampusId' => $selectedCampusId,
             'selectedFilter' => $filter,
-            'selectedDateOrder' => $selectedDateOrder // Utilisation de $selectedDateOrder ici aussi
+            'selectedDateOrder' => $selectedDateOrder
         ]);
     }
 
@@ -118,6 +118,13 @@ class TripController extends AbstractController
             if (!$user) {
                 throw new \LogicException('User not found as a Participant.');
             }
+        }
+
+        $registrationDeadline = $trip->getRegistrationDeadline();
+        
+        if (new \DateTime() > $registrationDeadline) {
+            $this->addFlash('error', 'The registration deadline has passed');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
         }
 
         if ($trip->getParticipants()->contains($user)) {
