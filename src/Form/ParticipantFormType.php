@@ -23,6 +23,7 @@ class ParticipantFormType extends AbstractType
             ])
             ->add('photoProfil', FileType::class, [
                 'label'=>'photo de Profil (image file)',
+                'mapped'=> false,
                 'required' => false,
 
             ]);
