@@ -72,7 +72,6 @@ class State
                 $trip->setState(null);
             }
         }
-
         return $this;
     }
 }

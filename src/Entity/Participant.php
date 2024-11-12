@@ -189,6 +189,4 @@ class Participant
 
         return $this;
     }
-    
-    
 }

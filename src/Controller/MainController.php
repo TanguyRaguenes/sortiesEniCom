@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-
     #[Route('/', name: 'app_main_home')]
     public function displayHome(): Response
     {
@@ -18,12 +17,10 @@ class MainController extends AbstractController
     #[Route('/welcome', name: 'app_main_welcome')]
     public function displayWelcome(): Response
     {
-
         $user = $this->getUser();
 
         return $this->render('main/welcome.html.twig', [
             'user' => $user,
         ]);
     }
-    
 }
