@@ -2,43 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+.tw_h1 {
+  @apply text-2xl font-semibold font-PressStart2P text-lime-500;
+}
+
 .tw_btn {
-    @apply h-10 mt-4 mb-4 text-white bg-gradient-to-r from-purple-400 to-lime-400 shadow-lg border-2 border-purple-300 rounded-md 
+  @apply h-14 mt-4 mb-4 text-white bg-gradient-to-r from-purple-400 to-lime-400 shadow-lg border-2 border-purple-300 rounded-md 
     hover:scale-105 hover:shadow-2xl hover:border-lime-300 hover:from-lime-400 hover:to-purple-400 hover:cursor-pointer 
     transition-all duration-300 ease-in-out font-PressStart2P flex flex-col justify-center items-center;
 }
 
 .tw_formItem {
-    @apply w-11/12 flex flex-col justify-center items-center h-20 mt-2
+  @apply w-11/12 flex flex-col justify-center items-center h-20 mt-2;
 }
 
 .tw_input {
-    @apply mb-4 h-10 w-11/12 text-xl text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner
+  @apply mb-4 h-10 w-11/12 text-xl text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner;
 }
 
 .tw_svg {
-    @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700
+  @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700;
 }
 
 .tw_link_1 {
-    @apply  text-gray-500 w-28 h-10 mr-2 flex flex-col justify-center border-2 border-lime-400 rounded-lg bg-lime-300 text-center transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl hover:bg-lime-400 font-PressStart2P text-sm 
+  @apply text-gray-500 w-28 h-10 mr-2 flex flex-col justify-center border-2 border-lime-400 rounded-lg bg-lime-300 text-center transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl hover:bg-lime-400 font-PressStart2P text-sm;
 }
 
 .tw_link_2 {
-    @apply border-2 border-white w-full h-10 hover:bg-purple-400 text-center font-PressStart2P flex flex-col justify-center text-gray-500
+  @apply border-2 border-white w-full h-10 hover:bg-purple-400 text-center font-PressStart2P flex flex-col justify-center text-gray-500;
 }
 
-.tw_p{
+.tw_p {
+  @apply mb-4 text-2xl lg:text-4xl text-gray-700;
+}
 
-    @apply mb-4 text-2xl lg:text-4xl text-gray-700
+.tw_th {
+  @apply pt-4 pb-4 text-center text-2xl font-semibold border-2 border-white bg-lime-400 text-white;
+}
+
+.tw_td_property {
+  @apply px-6 py-3 text-xl font-medium text-gray-900;
+}
+
+.tw_td_value {
+  @apply px-6 py-3 text-xl text-gray-700;
 }
 
 @font-face {
-    font-family: 'PressStart2P';
-    src: url('/fonts/PressStart2P-Regular.ttf') format('truetype'); /* Format correct pour TTF */
-    font-weight: 300;
-    font-style: normal;
-  }
+  font-family: "PressStart2P";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype"); /* Format correct pour TTF */
+  font-weight: 300;
+  font-style: normal;
+}
 
 /* .header {
     position: fixed;
