@@ -21,22 +21,23 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('plainPassword')->getData();
+    
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('password')->getData();
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $participant = new Participant(
-            name :$form->get('name')->getData(),
-            firstName : $form->get('firstName')->getData(),
-            username: $form->get('username')->getData(),
-            phone: $form->get('phone')->getData(),
-            photoProfil: "default.jpg"
-            );
+            $participant = new Participant();
             $participant->setEmail($user->getEmail());
+            $participant->setName('Default name');
+            $participant->setFirstName('Default first name');
+            $participant->setUsername('Default username');
+            $participant->setPhone(0000000000);
+            $participant->setPhotoProfil('default.jpg');
 
             $entityManager->persist($user);
-            $entityManager->persist($participant);
+            $entityManager->flush();
+             $entityManager->persist($participant);
             $entityManager->flush();
             return $this->redirectToRoute('app_login');
         }
