@@ -61,7 +61,7 @@
                             </tr>
                             <tr class="border-b-2 border-white">
                                 <td class="tw_td_property">Duration</td>
-                                <td class="tw_td_value">{{ trip.duration }}</td>
+                                <td class="tw_td_value">{{ (trip.duration // 60) }}h {{ (trip.duration % 60) }}m</td>
                             </tr>
                             <tr class="border-b-2 border-white">
                                 <td class="tw_td_property">Seats</td>
@@ -122,7 +122,8 @@
                                         <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.phone }}</a>
+                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}</a>
+                                        
                                     </td>
                                 </tr>    
                             {% endfor %}
