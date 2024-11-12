@@ -4,31 +4,61 @@
 
 {% block body %}
 
-    <section class="mt-32 pb-32">
+    <section class="mt-32 pb-32 text-center">
 
-        <h1>Register</h1>
+        <h1 class="tw_h1 mb-4">Register</h1>
 
-        {{ form_errors(registrationForm) }}
+        {{ form_start(registrationForm,{
+                        'label_attr':{'class':''}
+                    }) }}
 
-        {{ form_start(registrationForm, { 'attr': { 'class': 'registration-form' } }) }}
+            <div class="tw_form">
 
-            {{ form_row(registrationForm.email, {
-                'attr': { 'class': 'form-control input', 'placeholder': 'Enter your email' }
-            }) }}
+                <div class="tw_formItem">
+                    {{ form_label(registrationForm.email,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(registrationForm.email,{
+                        'attr':{'class':'tw_input'}
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+                </div>
+                
+                <div class="tw_formItem">
+                    {{ form_label(registrationForm.password,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(registrationForm.password,{
+                        'attr':{'class':'tw_input'}
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(registrationForm.password) }}
+                    </div>
+                </div>
 
-            {{ form_row(registrationForm.plainPassword, {
-                'label': 'Password',
-                'attr': { 'class': 'form-control', 'placeholder': 'Enter your password' }
-            }) }}
+                {# AGREE TERMS #}
 
-            {{ form_row(registrationForm.agreeTerms, {
-                'label': 'I am not a robot',
-                'attr': { 'class': 'form-check-input' }
-            }) }}
+                <div class="flex flex-row items-center mb-10">
 
-            <button type="submit" class="btn">Register</button>
-        
+                    {{ form_widget(registrationForm.agreeTerms, {
+                        'attr': { 'class': 'h-5 w-5 mr-4' }
+                    }) }}
+                    {{ form_label(registrationForm.agreeTerms,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    <div class="tw_error">
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                </div>
+
+                <button class="tw_btn w-11/12">Submit</button>
+
+            </div>
+
         {{ form_end(registrationForm) }}
+
 
     </section>
 

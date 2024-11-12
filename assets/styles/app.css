@@ -12,14 +12,21 @@
     transition-all duration-300 ease-in-out font-PressStart2P flex flex-col justify-center items-center;
 }
 
+.tw_form {
+  @apply border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto pt-10 pb-10;
+}
+
 .tw_formItem {
-  @apply w-11/12 flex flex-col justify-center items-center h-20 mt-2;
+  @apply w-11/12 flex flex-col justify-center items-center h-20 mb-10;
 }
 
 .tw_input {
-  @apply mb-4 h-10 w-11/12 text-xl text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner;
+  @apply mb-4 pt-2 pb-2 w-11/12 text-xl text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner;
 }
 
+.tw_error {
+  @apply text-red-600;
+}
 .tw_svg {
   @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700;
 }
