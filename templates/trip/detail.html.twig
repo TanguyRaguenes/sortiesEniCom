@@ -3,117 +3,138 @@
 {% block title %}Trip Detail - Sortie.com{% endblock %}
 
 {% block body %}
-<section class="mt-32 pb-32">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-col text-center w-full mb-20">
-            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Trip Detail</h2>
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Take a look!</h1>
-        </div>
-        <div class="overflow-x-auto bg-yellow-100 rounded-lg shadow-md">
-            <table class="min-w-full table-auto text-left">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">Property</th>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Organizer</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.organizer.username }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Trip Name</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.name }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Date & Time</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.dateAndTime | date('D, d M Y H:i:s', 'Europe/Paris') }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Duration</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.duration }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Seats</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.seats }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Note</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.textNote }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Registration Deadline</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.registrationDeadline | date('D, d M Y H:i:s', 'Europe/Paris') }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Campus Location</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.campus.location }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">Place Location</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.place.name }}</td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-6 py-3 text-sm font-medium text-gray-900">State</td>
-                        <td class="px-6 py-3 text-sm text-gray-700">{{ trip.state.label }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-        <div class="w-full flex flex-row mt-6">
-            {% if app.user %}
-                {% if trip.participants is not empty %}
-                    {% if trip.participants|filter(p => p.id == app.user.id)|length == 0 %}
+    <section class="mt-32 pb-32 w-full flex flex-col items-center">
+
+            {# BOUTONS #}
+
+            <div class="w-11/12 flex flex-row justify-center">
+            
+                {% if app.user %}
+                    {% if trip.participants is not empty %}
+                        {% if trip.participants|filter(p => p.id == app.user.id)|length == 0 %}
+                            <a href="{{ path('app_trip_participate', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">I participate</a>
+                        {% elseif trip.participants|filter(p => p.id == app.user.id)|length > 0 %}
+                            <a href="{{ path('app_trip_participate_remove', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Quit the Trip</a>
+                        {% endif %}
+                    {% else %}
                         <a href="{{ path('app_trip_participate', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">I participate</a>
-                    {% elseif trip.participants|filter(p => p.id == app.user.id)|length > 0 %}
-                        <a href="{{ path('app_trip_participate_remove', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Quit the Trip</a>
                     {% endif %}
                 {% else %}
-                    <a href="{{ path('app_trip_participate', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">I participate</a>
+                    <a href="{{ path('app_login') }}" class="tw_btn block w-1/3 mr-5">Login to participate</a>
                 {% endif %}
-            {% else %}
-                <a href="{{ path('app_login') }}" class="tw_btn block w-1/3 mr-5">Login to participate</a>
-            {% endif %}
 
-            {% if trip.organizer.id == app.user.id %}
-                <a href="{{ path('app_trip_edit', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Update Trip</a>
-                <a href="{{ path('app_trip_delete', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Delete Trip</a>
-            {% endif %}
-        </div>
+                {% if trip.organizer.id == app.user.id %}
+                    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Update Trip</a>
+                    <a href="{{ path('app_trip_delete', {'id': trip.id}) }}" class="tw_btn block w-1/3 mr-5">Delete Trip</a>
+                {% endif %}
+            </div>
 
-        <div class="overflow-x-auto bg-yellow-100 rounded-lg shadow-md mt-10">
-            <h2 class="text-lg text-center font-medium mb-4">The participants</h2>
-            <table class="min-w-full table-auto text-left">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">Username</th>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">Name</th>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">First Name</th>
-                        <th class="px-6 py-3 text-sm font-semibold text-gray-700 border-b">Phone Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for participant in trip.participants %}
-                        <tr>
-                            <td class="px-6 py-3 text-sm text-gray-700">
-                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.username }}</a>
-                            </td>
-                            <td class="px-6 py-3 text-sm text-gray-700">
-                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.name }}</a>
-                            </td>
-                            <td class="px-6 py-3 text-sm text-gray-700">
-                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
-                            </td>
-                            <td class="px-6 py-3 text-sm text-gray-700">
-                                <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.phone }}</a>
-                            </td>
-                        </tr>    
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+
+            {# CONTAINER DETAIL SORTIE + PARTICIPANTS #}
+            <div class="w-11/12 flex flex-col lg:flex-row rounded-xl">
+            
+                {# DETAIL SORTIE #}
+                <div class="bg-lime-300 rounded-lg shadow-md w-11/12 lg:1/2 mx-auto">
+
+                    <h2 class="pt-4 pb-4 text-4xl text-center font-medium bg-lime-400 text-white">TRIP DETAILS</h2>
+
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="tw_th">PROPERTY</th>
+                                <th class="tw_th">VALUE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Organizer</td>
+                                <td class="tw_td_value">{{ trip.organizer.username }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Trip Name</td>
+                                <td class="tw_td_value">{{ trip.name }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Date & Time</td>
+                                <td class="tw_td_value">{{ trip.dateAndTime | date('D, d M Y H:i:s', 'Europe/Paris') }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Duration</td>
+                                <td class="tw_td_value">{{ trip.duration }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Seats</td>
+                                <td class="tw_td_value">{{ trip.seats }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Note</td>
+                                <td class="tw_td_value">{{ trip.textNote }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Registration Deadline</td>
+                                <td class="tw_td_value">{{ trip.registrationDeadline | date('D, d M Y H:i:s', 'Europe/Paris') }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Campus Location</td>
+                                <td class="tw_td_value">{{ trip.campus.location }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">Place Location</td>
+                                <td class="tw_td_value">{{ trip.place.name }}</td>
+                            </tr>
+                            <tr class="border-b-2 border-white">
+                                <td class="tw_td_property">State</td>
+                                <td class="tw_td_value">{{ trip.state.label }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                {# DETAIL PARTICIPANTS SORTIE #}
+                <div class="bg-lime-300 rounded-lg shadow-md w-11/12 lg:1/2 mt-4 lg:mt-0 lg:ml-2 mx-auto">
+
+                    <h2 class="pt-4 pb-4 text-4xl text-center font-medium bg-lime-400 text-white">PARTICIPANTS</h2>
+
+                    <table class="min-w-full table-auto text-left">
+
+                        <thead>
+                            <tr >
+                                <th class="tw_th">USERNAME</th>
+                                <th class="tw_th">NAME</th>
+                                <th class="tw_th">FIRST NAME</th>
+                                <th class="tw_th">PHONE NUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+            
+                            {% for participant in trip.participants %}
+                                <tr class="border-b-2 border-white">
+                                    <td class="tw_td_value">
+                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.username }}</a>
+                                    </td>
+                                    <td class="tw_td_value">
+                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.name }}</a>
+                                    </td>
+                                    <td class="tw_td_value">
+                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
+                                    </td>
+                                    <td class="tw_td_value">
+                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.phone }}</a>
+                                    </td>
+                                </tr>    
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        
+    </section>
+    
 {% endblock %}
