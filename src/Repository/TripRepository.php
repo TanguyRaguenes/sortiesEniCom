@@ -34,7 +34,6 @@ class TripRepository extends ServiceEntityRepository
             $qb->andWhere('t.campus = :campus')
                ->setParameter('campus', $criteria['campus']);
         }
-
         return $qb->getQuery()->getResult();
     }
 
@@ -56,7 +55,6 @@ class TripRepository extends ServiceEntityRepository
             $qb->andWhere('t.campus = :campus')
                ->setParameter('campus', $criteria['campus']);
         }
-
         return $qb->getQuery()->getResult();
     }
 
