@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ParticipantFormType extends AbstractType
 {
@@ -19,6 +20,11 @@ class ParticipantFormType extends AbstractType
             ->add('phone')
             ->add('email', TextType::class, [
                 'attr' =>$options['is_edit'] ? ['readonly' => true] : [],
+            ])
+            ->add('photoProfil', FileType::class, [
+                'label'=>'photo de Profil (image file)',
+                'required' => false,
+
             ]);
         
         

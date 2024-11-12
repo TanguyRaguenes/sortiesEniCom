@@ -32,6 +32,16 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $file = $form['photoProfil']->getData();
+
+            if($file){
+            $filename =uniqid().'.'.$file->guessExtension();
+            $file->move($this->getParameter('photo_directory'), $filename);
+            $participant->setphotoProfil($filename);
+
+            }
+
+
             $entityManager->persist($participant);
             $entityManager->flush();
             $this->addFlash('success', 'Participant ajoutée !');
@@ -74,9 +84,7 @@ class ParticipantController extends AbstractController
                     if (!$participant) {
                         throw $this->createNotFoundException('Participant not found');
                     }
-
-                    $form = $this->createForm(ParticipantFormType::class, $participant);
-                     
+                                        
                     $form = $this->createForm(ParticipantFormType::class, $participant, [
                     'is_edit' => true,
                      ]);
@@ -85,6 +93,14 @@ class ParticipantController extends AbstractController
                     
 
                     if ($form->isSubmitted() && $form->isValid()) {
+                        $file = $form['photoProfil']->getData();
+                        if($file){
+                            $filename = uniqid().'.'. $file->guessExtension();
+                            $file->move($this->getParameter('photo_directory'), $filename);
+                            $participant->setphotoProfil($filename);
+                        }
+                        
+                        
                         $entityManager->flush();
                         $this->addFlash('success', 'Participant updated !');
                         return $this->redirectToRoute('app_participant_profil');
@@ -96,7 +112,14 @@ class ParticipantController extends AbstractController
                     ]);
     }
 
+
+
+
+
+
+
     }
+
 
 
 

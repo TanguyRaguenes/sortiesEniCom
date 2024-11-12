@@ -46,6 +46,9 @@ class Participant
     #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'participants')]
     private Collection $tripsParticipant;
 
+    #[ORM\Column(length: 255)]
+    private ?string $photoProfil = null;
+
     public function __construct()
     {
         $this->tripsOrganizer = new ArrayCollection();
@@ -170,6 +173,18 @@ class Participant
         if ($this->tripsParticipant->removeElement($tripsParticipant)) {
             $tripsParticipant->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getPhotoProfil(): ?string
+    {
+        return $this->photoProfil;
+    }
+
+    public function setPhotoProfil(string $photoProfil): static
+    {
+        $this->photoProfil = $photoProfil;
 
         return $this;
     }

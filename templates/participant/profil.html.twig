@@ -7,6 +7,17 @@
 <section class="mt-32 pb-32">
 
     <h1> Profil </h1>
+    {% if participant.photoProfil %}
+        <div>
+        <h2>Profil Picture</h2>
+        <img 
+    src="{{ asset('uploads/photos/' ~ participant.photoProfil) }}" 
+    alt="{{ participant.username }}'s Profile" 
+    class="max-w-[200px] max-h-[200px] object-cover"/>
+    </div>
+    {%else%}
+    <p> No Profil picture</p>
+    {%endif%}
 
     <p><strong>Name :</strong> {{ participant.name }}</p>
     <p><strong>First Name :</strong> {{ participant.firstName }}</p>
