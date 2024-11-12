@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,12 +26,20 @@ class RegistrationController extends AbstractController
 
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $participant = new Participant(
+            name :$form->get('name')->getData(),
+            firstName : $form->get('firstName')->getData(),
+            username: $form->get('username')->getData(),
+            phone: $form->get('phone')->getData(),
+            photoProfil: "default.jpg"
+            );
+            $participant->setEmail($user->getEmail());
 
+            $entityManager->persist($user);
+            $entityManager->persist($participant);
+            $entityManager->flush();
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
