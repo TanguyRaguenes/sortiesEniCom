@@ -73,6 +73,7 @@
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') %}
+                        <a class="tw_link_1" href="{{ path('app_participant_profil') }}">Profil</a>
                         <a class="tw_link_1" href="{{ path('app_logout') }}">Logout</a>
                     {% endif %}
                     
@@ -101,6 +102,7 @@
                 {% endif %}
 
                 {% if is_granted('ROLE_USER') %}
+                    <a class="tw_link_2" href="{{ path('app_participant_profil') }}">Profil</a>
                     <a class="tw_link_2" href="{{ path('app_logout') }}">Logout</a>
                 {% endif %}
                 
@@ -109,7 +111,8 @@
 
             {# Flash message #}
 
-            <div class="w-full h-10">
+            <div id="flashMessagesContainer" class="w-full h-20 z-50">
+
                 {% for label, messages in app.flashes %}
 
                     {% for message in messages %}
