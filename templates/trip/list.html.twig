@@ -33,7 +33,6 @@
                 <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
                     <label for="date_order">Sort by Date:</label>
                     <select class="w-30 border-2 rounded-lg" name="date_order" id="date_order" onchange="this.form.submit()">
-                        <option value="">Select Order</option>
                         <option value="asc" {% if selectedDateOrder == 'asc' %}selected{% endif %}>Ascending</option>
                         <option value="desc" {% if selectedDateOrder == 'desc' %}selected{% endif %}>Descending</option>
                     </select>
@@ -42,7 +41,7 @@
                 {# Filter check-box -30 days, trip #}
                 <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
                     <label for="past_trips" class="flex items-center">
-                        <input type="checkbox" name="past_trips" id="past_trips" {% if app.request.query.get('past_trips') %}checked{% endif %}onchange="this.form.submit()"
+                        <input type="checkbox" name="past_trips" id="past_trips" {% if showPastTrips %}checked{% endif %} onchange="this.form.submit()"
                         class="mr-2">Archived - Last 30 days</input>
                     </label>
                 </form>

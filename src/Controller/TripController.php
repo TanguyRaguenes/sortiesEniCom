@@ -24,8 +24,8 @@ class TripController extends AbstractController
         $filter = $request->query->get('filter');
         $selectedDateOrder = $request->query->get('date_order', 'asc');
         $user = $this->getUser();
-        $showPastTrips = $request->query->get('past_trips');
 
+        $showPastTrips = $request->query->get('past_trips', null) !== null;
         $participant = $participantRepository->findOneByEmail($user->getEmail());
 
         $qb = $tripRepository->createQueryBuilder('t');
@@ -56,7 +56,6 @@ class TripController extends AbstractController
         }
 
         $qb->orderBy('t.dateAndTime', $selectedDateOrder);
-
         $trips = $qb->getQuery()->getResult();
 
         return $this->render('trip/list.html.twig', [
@@ -64,9 +63,11 @@ class TripController extends AbstractController
             'campuses' => $campuses,
             'selectedCampusId' => $selectedCampusId,
             'selectedFilter' => $filter,
-            'selectedDateOrder' => $selectedDateOrder
+            'selectedDateOrder' => $selectedDateOrder,
+            'showPastTrips' => $showPastTrips
         ]);
     }
+
 
 
     #[Route('/trip/create', name: 'app_trip_create')]
