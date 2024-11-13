@@ -80,13 +80,18 @@ class TripController extends AbstractController
         $qb->orderBy('t.dateAndTime', $selectedDateOrder);
         $trips = $qb->getQuery()->getResult();
 
+        foreach ($trips as $trip) {
+            $trip->isOrganizer = $trip->getOrganizer() === $participant;
+            $trip->isParticipant = $trip->getParticipants()->contains($participant);
+        }
+
         return $this->render('trip/list.html.twig', [
             'trips' => $trips,
             'campuses' => $campuses,
             'selectedCampusId' => $selectedCampusId,
             'selectedFilter' => $filter,
             'selectedDateOrder' => $selectedDateOrder,
-            'showPastTrips' => $showPastTrips
+            'showPastTrips' => $showPastTrips,
         ]);
     }
 
