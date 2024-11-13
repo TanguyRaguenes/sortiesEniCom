@@ -162,6 +162,11 @@ class TripController extends AbstractController
             return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
         }
 
+        if ($trip->getParticipants()->count() >= $trip->getSeats()) {
+            $this->addFlash('error', 'The trip is FULL !!!');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+        }
+
         $trip->addParticipant($user);
         $entityManager->persist($trip);
         $entityManager->flush();
@@ -215,6 +220,12 @@ class TripController extends AbstractController
 
         if ($trip->getOrganizer() !== $participant) {
             throw $this->createAccessDeniedException('You do not have permission to delete this trip');
+        }
+
+        $registrationDeadline = $trip->getRegistrationDeadline();
+        if (new \DateTime() > $registrationDeadline) {
+            $this->addFlash('error', 'The trip cannot be DELETED, because the registration deadline has passed !!!');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
         }
 
         $entityManager->remove($trip);
