@@ -1,0 +1,41 @@
+{# templates/admin/users.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="mt-32 pb-32 text-center">
+    <h1>User management</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Current role</th>
+                <th>Change the role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles|join(', ') }}</td>
+                    <td>
+                        <form action="{{ path('admin_user_change_role', {'id': user.id}) }}" method="POST" class="d-inline">
+                            <select name="role" onchange="this.form.submit()">
+                                <option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}selected{% endif %}>User</option>
+                                <option value="ROLE_ORGANIZER" {% if 'ROLE_ORGANIZER' in user.roles %}selected{% endif %}>Organizer</option>
+                                <option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>Admin</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+      </section>
+{% endblock %}
