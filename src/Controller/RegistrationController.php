@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 class RegistrationController extends AbstractController
 {
@@ -29,9 +30,11 @@ class RegistrationController extends AbstractController
 
             $participant = new Participant();
             $participant->setEmail($user->getEmail());
-            $participant->setName('Default name');
-            $participant->setFirstName('Default first name');
-            $participant->setUsername('Default username');
+             $uniqueId = substr(Uuid::v4()->toBase58(), 0, 8);
+             
+            $participant->setName('name');
+            $participant->setFirstName('first name');
+            $participant->setUsername('User_' . $uniqueId);
             $participant->setPhone(0000000000);
             $participant->setPhotoProfil('default.jpg');
 
