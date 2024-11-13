@@ -7,35 +7,50 @@
             {% endif %}
         <div class="mx-auto flex flex-col items-center">
             <div class="w-full flex flex-row justify-around">
+                <div class="grid-cols-1">
+                    {# Filtre campus #}
+                    <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
+                        <label for="campus">Filter by Campus:</label>
+                        <select class="w-30 border-2 rounded-lg" name="campus" id="campus" onchange="this.form.submit()">
+                            <option value="">All</option>
+                            {% for campus in campuses %}
+                                <option value="{{ campus.id }}" {% if selectedCampusId == campus.id %}selected{% endif %}>{{ campus.location }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    {# Filter organizer, participant, all #}
+                    <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
+                        <label for="filter">Filter by:</label>
+                        <select class="w-30 border-2 rounded-lg" name="filter" id="filter" onchange="this.form.submit()">
+                            <option value="">All Trips</option>
+                            <option value="created" {% if selectedFilter == 'created' %}selected{% endif %}>Created</option>
+                            <option value="participate" {% if selectedFilter == 'participate' %}selected{% endif %}>Participate</option>
+                        </select>
+                    </form>
 
-                {# Filtre campus #}
-                <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
-                    <label for="campus">Filter by Campus:</label>
-                    <select class="w-30 border-2 rounded-lg" name="campus" id="campus" onchange="this.form.submit()">
-                        <option value="">All</option>
-                        {% for campus in campuses %}
-                            <option value="{{ campus.id }}" {% if selectedCampusId == campus.id %}selected{% endif %}>{{ campus.location }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
+                    {# Filter ascen and desc, trip #}
+                    <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
+                        <label for="date_order">Sort by Date:</label>
+                        <select class="w-30 border-2 rounded-lg" name="date_order" id="date_order" onchange="this.form.submit()">
+                            <option value="asc" {% if selectedDateOrder == 'asc' %}selected{% endif %}>Ascending</option>
+                            <option value="desc" {% if selectedDateOrder == 'desc' %}selected{% endif %}>Descending</option>
+                        </select>
+                    </form>
+                </div>
 
-                {# Filter organizer, participant, all #}
+                {# Ajoutez ce formulaire avec les autres filtres #}
                 <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
-                    <label for="filter">Filter by:</label>
-                    <select class="w-30 border-2 rounded-lg" name="filter" id="filter" onchange="this.form.submit()">
-                        <option value="">All Trips</option>
-                        <option value="created" {% if selectedFilter == 'created' %}selected{% endif %}>Created</option>
-                        <option value="participate" {% if selectedFilter == 'participate' %}selected{% endif %}>Participate</option>
-                    </select>
-                </form>
-
-                {# Filter ascen and desc, trip #}
-                <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
-                    <label for="date_order">Sort by Date:</label>
-                    <select class="w-30 border-2 rounded-lg" name="date_order" id="date_order" onchange="this.form.submit()">
-                        <option value="asc" {% if selectedDateOrder == 'asc' %}selected{% endif %}>Ascending</option>
-                        <option value="desc" {% if selectedDateOrder == 'desc' %}selected{% endif %}>Descending</option>
-                    </select>
+                    <div class="flex flex-col gap-2">
+                        <label for="search">Search by name:</label>
+                        <div class="flex gap-2">
+                            <input type="text" name="search" id="search" class="w-40 border-2 rounded-lg p-1"placeholder="Ex: cinema, concert..."value="{{ app.request.query.get('search') }}">
+                            <button type="submit">Search</button>
+                            {% if app.request.query.get('search') %}
+                                <a href="{{ path('app_trip_list', {'campus': selectedCampusId,'filter': selectedFilter,'date_order': selectedDateOrder,'past_trips': showPastTrips ? 'on' : null,'date_start': app.request.query.get('date_start'),
+                                'date_end': app.request.query.get('date_end')}) }}">Clear search</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </form>
 
                 {# Filter check-box -30 days, trip #}
@@ -46,7 +61,23 @@
                     </label>
                 </form>
 
-            </div>
+                <form method="get" action="{{ path('app_trip_list') }}" class="mb-5">
+                    <div class="flex flex-col gap-2">
+                        <div>
+                            <label for="date_start">Start:</label>
+                            <input type="date" name="date_start" id="date_start" class="w-30 border-2 rounded-lg" value="{{ app.request.query.get('date_start') }}">
+                        </div>
+                        <div>
+                            <label for="date_end">End:</label>
+                            <input type="date" name="date_end" id="date_end" class="w-30 border-2 rounded-lg" value="{{ app.request.query.get('date_end') }}">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit">Filter Dates</button>
+                            <a href="{{ path('app_trip_list', {'campus': selectedCampusId,'filter': selectedFilter,'date_order': selectedDateOrder,'past_trips': showPastTrips ? 'on' : null}) }}">Reset dates</a>
+                        </div>
+                    </div>
+                </form>
+            </div>    
             <div class="w-11/12 border-2 flex flex-wrap">
                 {% for trip in trips %}
                     <div class="p-4 w-full lg:w-1/2">

@@ -25,10 +25,20 @@ class TripController extends AbstractController
         $selectedDateOrder = $request->query->get('date_order', 'asc');
         $user = $this->getUser();
 
+        $searchTerm = $request->query->get('search');
+
         $showPastTrips = $request->query->get('past_trips', null) !== null;
         $participant = $participantRepository->findOneByEmail($user->getEmail());
 
+        $dateStart = $request->query->get('date_start');
+        $dateEnd = $request->query->get('date_end');
+
         $qb = $tripRepository->createQueryBuilder('t');
+
+        if ($searchTerm) {
+            $qb->andWhere('LOWER(t.name) LIKE LOWER(:searchTerm)')
+               ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
 
         $now = new \DateTime();
         $thirtyDaysAgo = (clone $now)->modify('-30 days');
@@ -39,6 +49,18 @@ class TripController extends AbstractController
         } else {
             $qb->andWhere('t.dateAndTime >= :thirtyDaysAgo')
                ->setParameter('thirtyDaysAgo', $thirtyDaysAgo);
+        }
+
+        if ($dateStart) {
+            $startDate = new \DateTime($dateStart);
+            $qb->andWhere('t.dateAndTime >= :startDate')
+               ->setParameter('startDate', $startDate->setTime(0, 0, 0));
+        }
+    
+        if ($dateEnd) {
+            $endDate = new \DateTime($dateEnd);
+            $qb->andWhere('t.dateAndTime <= :endDate')
+               ->setParameter('endDate', $endDate->setTime(23, 59, 59));
         }
 
         if ($selectedCampusId) {
@@ -87,13 +109,15 @@ class TripController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($trip);
-            $entityManager->flush();
-            $this->addFlash('success', 'Trip successfully added!');
-            return $this->redirectToRoute('app_trip_list');
-        }else {
-            $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($trip);
+                $entityManager->flush();
+                $this->addFlash('success', 'Trip successfully added!');
+                return $this->redirectToRoute('app_trip_list');
+            } else {
+                $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
+            }
         }
 
         return $this->render("trip/edit.html.twig", ['form' => $form]);
