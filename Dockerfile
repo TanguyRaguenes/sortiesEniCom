@@ -23,10 +23,18 @@ RUN chown -R appuser:appuser /var/www
 USER appuser
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Configurer Nginx
+# Revenir à root pour configurer Nginx et permissions
 USER root
+
+# Configurer Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN ln -s /var/www/public /var/www/html  # Redirige le root Nginx vers le dossier public de Symfony
+
+# Donner les permissions d’écriture nécessaires aux dossiers cache et log
+RUN chown -R appuser:appuser /var/www/var
+
+# Effacer le cache Symfony pour l’environnement de production
+RUN php bin/console cache:clear --env=prod
 
 # Exposer le port utilisé par Railway
 EXPOSE 80
