@@ -16,8 +16,8 @@ RUN useradd -m appuser
 WORKDIR /var/www
 COPY . /var/www
 
-# Créer le dossier var pour Symfony et donner les droits d’écriture à appuser
-RUN mkdir -p /var/www/var && chown -R appuser:appuser /var/www/var
+# Donner les droits d’écriture à appuser sur /var/www
+RUN chown -R appuser:appuser /var/www
 
 # Passer à l’utilisateur non-root pour installer les dépendances
 USER appuser
