@@ -79,5 +79,56 @@
                 <p class="mt-1 text-sm text-gray-500">Aucun utilisateur n'a été trouvé dans la base de données.</p>
             </div>
         {% endif %}
-    </div>
+
+{# --------------------------------------------------------           BLOCK CAMPUS           -------------------------------------------------------- #}
+
+    <div class="w-full min-h-screen pt-24 pb-20 px-4">
+        {# Header section #}
+        <div class="tw_h1 items-center text-center">
+            <h1 class="text-3xl font-PressStart2P text-purple-800 mb-4">
+                Campus management
+            </h1>
+        </div>
+
+        {# Main content #}
+        <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            {# Campus table #}
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-purple-300">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Campus
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"></th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Delete Campus
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for campus in campuses %}
+                            <tr class="hover:bg-purple-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ campus.location }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <form action="{{ path('admin_campus_delete', {'id': campus.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this campus?')">
+                                        <button type="submit" class="tw_link_3 items-center">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {# Empty state #}
+        <a class="tw_btn_2 block w-1/2 mx-auto" href="{{ path('admin_campus_create') }}">Create Campus</a>
+    </div>    
 {% endblock %}
+

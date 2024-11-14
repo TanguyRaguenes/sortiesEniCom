@@ -1,0 +1,10 @@
+{
+  "name": "SortieEniCom",
+  "build": {
+    "dockerfilePath": "Dockerfile"
+  },
+  "envs": {
+    "APP_ENV": "prod",
+    "DATABASE_URL": "mysql://root:@127.0.0.1:3306/sortiesEniCom?serverVersion=8.3.0&charset=utf8mb4"
+  }
+}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="w-full min-h-screen pt-24 pb-20 px-4">
+        {# Header section #}
+        <div class="tw_h1 items-center text-center">
+            <h1 class="text-3xl font-PressStart2P text-purple-800 mb-4">
+                Create Campus
+            </h1>
+        </div>
+
+        {# Main content #}
+        <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+                <form action="{{ path('admin_campus_create') }}" method="POST">
+                    <div class="mb-4">
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" id="location" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-sm border-2 border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" required>
+                    </div>
+                    <button type="submit" class="tw_btn_2 w-40">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
