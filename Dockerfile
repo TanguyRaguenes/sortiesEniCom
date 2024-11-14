@@ -19,5 +19,5 @@ RUN composer install --no-scripts --ignore-platform-reqs
 # Exposer le port utilisé par le serveur Symfony
 EXPOSE 8000
 
-# Lancer le serveur Symfony
-CMD php -S 0.0.0.0:8000 -t public
+# Lancer le serveur Symfony et garder le conteneur actif
+CMD php -S 0.0.0.0:8000 -t public & tail -f /dev/null
