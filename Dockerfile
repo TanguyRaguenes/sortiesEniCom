@@ -16,22 +16,17 @@ RUN useradd -m appuser
 WORKDIR /var/www
 COPY . /var/www
 
-# Donner les droits d’écriture à appuser sur /var/www
-RUN chown -R appuser:appuser /var/www
+# Créer le dossier var pour Symfony et donner les droits d’écriture à appuser
+RUN mkdir -p /var/www/var && chown -R appuser:appuser /var/www/var
 
 # Passer à l’utilisateur non-root pour installer les dépendances
 USER appuser
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Revenir à root pour configurer Nginx et permissions
+# Revenir à root pour configurer Nginx
 USER root
-
-# Configurer Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN ln -s /var/www/public /var/www/html  # Redirige le root Nginx vers le dossier public de Symfony
-
-# Donner les permissions d’écriture nécessaires aux dossiers cache et log
-RUN chown -R appuser:appuser /var/www/var
 
 # Effacer le cache Symfony pour l’environnement de production
 RUN php bin/console cache:clear --env=prod
