@@ -1,26 +1,35 @@
-# Utiliser l'image PHP officielle en ligne de commande pour Symfony
-FROM php:8.2-cli
+# Étape 1: Utiliser l'image PHP avec FPM (FastCGI Process Manager)
+FROM php:8.2-fpm
 
-# Installer les dépendances nécessaires pour Symfony
+# Étape 2: Installer les dépendances nécessaires pour PHP et Nginx
 RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip git curl \
+    libpng-dev libjpeg-dev libfreetype6-dev zip git curl nginx \
     && rm -rf /var/lib/apt/lists/*
 
-# Installer Composer
+# Étape 3: Installer Composer (gestionnaire de dépendances pour PHP)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Définir le répertoire de travail et copier l'application Symfony
-WORKDIR /app
-COPY . /app
+# Étape 4: Copier l'application Symfony dans le conteneur
+WORKDIR /var/www
+COPY . /var/www
 
-# Installer les dépendances Composer
+# Étape 5: Donner les permissions nécessaires à l'utilisateur non-root
+RUN chown -R www-data:www-data /var/www
+
+# Étape 6: Installer les dépendances PHP de Symfony
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Effacer le cache Symfony pour l’environnement de production
+# Étape 7: Copier la configuration Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Étape 8: Créer les répertoires nécessaires pour Nginx
+RUN mkdir -p /var/log/nginx && chown -R www-data:www-data /var/log/nginx
+
+# Étape 9: Effacer le cache Symfony pour la production
 RUN php bin/console cache:clear --env=prod
 
-# Exposer le port utilisé par le serveur Symfony
-EXPOSE 8000
+# Étape 10: Exposer le port 80 pour que Nginx soit accessible
+EXPOSE 80
 
-# Lancer le serveur Symfony en mode production
-CMD APP_ENV=prod APP_DEBUG=0 php -S 0.0.0.0:8000 -t public
+# Étape 11: Lancer Nginx et PHP-FPM ensemble
+CMD service nginx start && php-fpm --nodaemonize
