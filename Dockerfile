@@ -12,9 +12,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Ajouter un utilisateur non-root pour Composer
 RUN useradd -m appuser
 
-# Définir le répertoire de travail et copier l'application Symfony dans le conteneur
+# Définir le répertoire de travail et copier l'application Symfony
 WORKDIR /var/www
 COPY . /var/www
+
+# Donner les droits d’écriture à appuser sur /var/www
+RUN chown -R appuser:appuser /var/www
 
 # Passer à l’utilisateur non-root pour installer les dépendances
 USER appuser
