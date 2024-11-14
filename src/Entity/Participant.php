@@ -49,15 +49,11 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $photoProfil = null;
 
-    public function __construct(String $name, String $firstName, String $username, int $phone, String $photoProfil)
+    public function __construct()
     {
         $this->tripsOrganizer = new ArrayCollection();
         $this->tripsParticipant = new ArrayCollection();
-        $this->name = $name;
-        $this->firstName = $firstName;
-        $this->username = $username;
-        $this->phone = $phone;
-        $this->photoProfil = $photoProfil;
+    
     }
 
     public function getId(): ?int
@@ -193,6 +189,4 @@ class Participant
 
         return $this;
     }
-    
-    
 }

@@ -95,7 +95,7 @@
                 {# DETAIL PARTICIPANTS SORTIE #}
                 <div class="bg-lime-300 rounded-lg shadow-md w-11/12 lg:1/2 mt-4 lg:mt-0 lg:ml-2 mx-auto">
 
-                    <h2 class="pt-4 pb-4 text-4xl text-center font-medium bg-lime-400 text-white">PARTICIPANTS</h2>
+                    <h2 class="pt-4 pb-4 text-4xl text-center font-medium bg-lime-400 text-white">PARTICIPANTS {{ trip.participants|length }}/{{ trip.seats }}</h2>
 
                     <table class="w-full">
 
@@ -113,16 +113,16 @@
                             {% for participant in trip.participants %}
                                 <tr class="border-b-2 border-white">
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.username }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.username }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.name }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.name }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.firstName }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}</a>
                                         
                                     </td>
                                 </tr>    

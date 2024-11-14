@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TripRepository::class)]
 class Trip
@@ -36,6 +37,7 @@ class Trip
     private ?string $textNote = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\LessThanOrEqual(propertyPath: "dateAndTime", message: "Registration deadline must be before or equal to the trip date and time.")]
     private ?\DateTimeInterface $registrationDeadline = null;
 
     #[ORM\ManyToOne(inversedBy: 'trips')]

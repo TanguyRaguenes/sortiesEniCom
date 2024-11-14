@@ -29,10 +29,8 @@ class ParticipantRepository extends ServiceEntityRepository
                 'phone' => $participant->getPhone(),
             ];
         }
-
         return $result;
     }
-
 
     public function findOneByEmail(String $email): ?Participant
     {

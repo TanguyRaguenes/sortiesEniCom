@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 class RegistrationController extends AbstractController
 {
@@ -21,18 +22,25 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('password')->getData();
-
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $participant = new Participant(
-
-            );
+            $participant = new Participant();
             $participant->setEmail($user->getEmail());
+             $uniqueId = substr(Uuid::v4()->toBase58(), 0, 8);
+             
+            $participant->setName('name');
+            $participant->setFirstName('first name');
+            $participant->setUsername('User_' . $uniqueId);
+            $participant->setPhone(0000000000);
+            $participant->setPhotoProfil('default.jpg');
 
             $entityManager->persist($user);
-            $entityManager->persist($participant);
+            $entityManager->flush();
+             $entityManager->persist($participant);
             $entityManager->flush();
             return $this->redirectToRoute('app_login');
         }

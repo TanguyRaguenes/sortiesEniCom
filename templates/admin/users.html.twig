@@ -1,0 +1,84 @@
+{# templates/admin/users.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="w-full min-h-screen pt-24 pb-20 px-4">
+        {# Header section #}
+        <div class="tw_h1 items-center text-center">
+            <h1 class="text-3xl font-PressStart2P text-purple-800 mb-4">
+                User management 
+            </h1>
+        </div>
+
+        {# Main content #}
+        <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            {# Users table #}
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-purple-300">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Current role
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Edit role
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for user in users %}
+                            <tr class="hover:bg-purple-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ user.email }}</div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex flex-wrap gap-2">
+                                        {% for role in user.roles %}
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                {{ role|replace({'ROLE_': ''}) }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <form action="{{ path('admin_user_change_role', {'id': user.id}) }}" method="POST">
+                                        <select name="role" 
+                                                onchange="this.form.submit()"
+                                                class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            <option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}selected{% endif %}>
+                                                User
+                                            </option>
+                                            <option value="ROLE_ORGANIZER" {% if 'ROLE_ORGANIZER' in user.roles %}selected{% endif %}>
+                                                Organizer
+                                            </option>
+                                            <option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>
+                                                Admin
+                                            </option>
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {# Empty state #}
+        {% if users is empty %}
+            <div class="text-center py-12 bg-white rounded-lg shadow-sm mt-4">
+                <svg class="mx-auto h-12 w-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2m0 0H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun utilisateur</h3>
+                <p class="mt-1 text-sm text-gray-500">Aucun utilisateur n'a été trouvé dans la base de données.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

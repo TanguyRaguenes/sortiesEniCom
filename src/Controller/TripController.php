@@ -25,11 +25,21 @@ class TripController extends AbstractController
         $filter = $request->query->get('filter');
         $selectedDateOrder = $request->query->get('date_order', 'asc');
         $user = $this->getUser();
-        $showPastTrips = $request->query->get('past_trips');
 
+        $searchTerm = $request->query->get('search');
+
+        $showPastTrips = $request->query->get('past_trips', null) !== null;
         $participant = $participantRepository->findOneByEmail($user->getEmail());
 
+        $dateStart = $request->query->get('date_start');
+        $dateEnd = $request->query->get('date_end');
+
         $qb = $tripRepository->createQueryBuilder('t');
+
+        if ($searchTerm) {
+            $qb->andWhere('LOWER(t.name) LIKE LOWER(:searchTerm)')
+               ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
 
         $now = new \DateTime();
         $thirtyDaysAgo = (clone $now)->modify('-30 days');
@@ -40,6 +50,18 @@ class TripController extends AbstractController
         } else {
             $qb->andWhere('t.dateAndTime >= :thirtyDaysAgo')
                ->setParameter('thirtyDaysAgo', $thirtyDaysAgo);
+        }
+
+        if ($dateStart) {
+            $startDate = new \DateTime($dateStart);
+            $qb->andWhere('t.dateAndTime >= :startDate')
+               ->setParameter('startDate', $startDate->setTime(0, 0, 0));
+        }
+    
+        if ($dateEnd) {
+            $endDate = new \DateTime($dateEnd);
+            $qb->andWhere('t.dateAndTime <= :endDate')
+               ->setParameter('endDate', $endDate->setTime(23, 59, 59));
         }
 
         if ($selectedCampusId) {
@@ -57,17 +79,23 @@ class TripController extends AbstractController
         }
 
         $qb->orderBy('t.dateAndTime', $selectedDateOrder);
-
         $trips = $qb->getQuery()->getResult();
+
+        foreach ($trips as $trip) {
+            $trip->isOrganizer = $trip->getOrganizer() === $participant;
+            $trip->isParticipant = $trip->getParticipants()->contains($participant);
+        }
 
         return $this->render('trip/list.html.twig', [
             'trips' => $trips,
             'campuses' => $campuses,
             'selectedCampusId' => $selectedCampusId,
             'selectedFilter' => $filter,
-            'selectedDateOrder' => $selectedDateOrder
+            'selectedDateOrder' => $selectedDateOrder,
+            'showPastTrips' => $showPastTrips,
         ]);
     }
+
 
 
     #[Route('/trip/create', name: 'app_trip_create')]
@@ -102,13 +130,15 @@ class TripController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($trip);
-            $entityManager->flush();
-            $this->addFlash('success', 'Trip successfully added!');
-            return $this->redirectToRoute('app_trip_list');
-        }else {
-            $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($trip);
+                $entityManager->flush();
+                $this->addFlash('success', 'Trip successfully added!');
+                return $this->redirectToRoute('app_trip_list');
+            } else {
+                $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
+            }
         }
 
         return $this->render("trip/edit.html.twig", ['form' => $form, 'places' => $places, 'placesJson' => $placesJson]);
@@ -145,6 +175,11 @@ class TripController extends AbstractController
 
         if ($trip->getParticipants()->contains($user)) {
             $this->addFlash('warning', 'You are already participating in this trip.');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
+        }
+
+        if ($trip->getParticipants()->count() >= $trip->getSeats()) {
+            $this->addFlash('error', 'The trip is FULL !!!');
             return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
         }
 
@@ -201,6 +236,12 @@ class TripController extends AbstractController
 
         if ($trip->getOrganizer() !== $participant) {
             throw $this->createAccessDeniedException('You do not have permission to delete this trip');
+        }
+
+        $registrationDeadline = $trip->getRegistrationDeadline();
+        if (new \DateTime() > $registrationDeadline) {
+            $this->addFlash('error', 'The trip cannot be DELETED, because the registration deadline has passed !!!');
+            return $this->redirectToRoute('app_trip_detail', ['id' => $id]);
         }
 
         $entityManager->remove($trip);

@@ -25,10 +25,7 @@ class ParticipantFormType extends AbstractType
                 'label'=>'photo de Profil (image file)',
                 'mapped'=> false,
                 'required' => false,
-
             ]);
-        
-        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
