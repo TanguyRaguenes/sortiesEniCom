@@ -1,7 +1,7 @@
 # Utiliser l'image PHP officielle pour Symfony
 FROM php:8.2-fpm
 
-# Installer les dépendances nécessaires pour Symfony
+# Installer les dépendances nécessaires pour Symfony (les extensions PHP de base)
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev zip git curl \
     && rm -rf /var/lib/apt/lists/*
@@ -12,7 +12,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Ajouter un utilisateur non-root pour Composer
 RUN useradd -m appuser
 
-# Définir le répertoire de travail et copier l'application Symfony
+# Définir le répertoire de travail et copier l'application Symfony dans le conteneur
 WORKDIR /var/www
 COPY . /var/www
 
@@ -20,7 +20,7 @@ COPY . /var/www
 USER appuser
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Repasse à root temporairement pour exécuter des commandes Symfony nécessitant des droits élevés
+# Repasse à root pour exécuter des commandes Symfony nécessitant des droits élevés
 USER root
 RUN php bin/console cache:clear
 RUN php bin/console assets:install public
