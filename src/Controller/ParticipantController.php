@@ -61,6 +61,21 @@ class ParticipantController extends AbstractController
             'participant' => $participant
         ]);
     }
+
+    #[Route('/participant/profil/{id}', name: 'app_participant_profil_id', requirements: ['id' => '\d+'])]
+    public function viewProfile(int $id, ParticipantRepository $participantRepository): Response
+    {
+        $participant = $participantRepository->find($id);
+    
+        if (!$participant) {
+            throw $this->createNotFoundException('Participant not found');
+        }
+    
+        return $this->render('participant/profil.html.twig', [
+            'controller_name' => 'ParticipantController',
+            'participant' => $participant
+        ]);
+    }
     
     #[Route('/participant/edit/{id}', name: 'app_participant_edit')]
     public function update(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response

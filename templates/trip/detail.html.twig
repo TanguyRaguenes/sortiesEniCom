@@ -113,16 +113,16 @@
                             {% for participant in trip.participants %}
                                 <tr class="border-b-2 border-white">
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.username }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.username }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.name }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.name }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">{{ participant.firstName }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">{{ participant.firstName }}</a>
                                     </td>
                                     <td class="tw_td_value">
-                                        <a href="{{ path('app_participant_profil', {'id': participant.id}) }}">0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}</a>
+                                        <a href="{{ path('app_participant_profil_id', {'id': participant.id}) }}">0{{ participant.phone|slice(0, 1) }} {{ participant.phone|slice(1, 2) }} {{ participant.phone|slice(3, 2) }} {{ participant.phone|slice(5, 2) }} {{ participant.phone|slice(7, 2) }}</a>
                                         
                                     </td>
                                 </tr>    
