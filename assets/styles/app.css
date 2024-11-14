@@ -12,6 +12,12 @@
     transition-all duration-300 ease-in-out font-PressStart2P flex flex-col justify-center items-center;
 }
 
+.tw_btn_2 {
+  @apply h-14 mt-4 mb-4 text-purple-800 from-purple-400 to-lime-400 shadow-lg border-2 border-purple-300 rounded-md 
+    hover:scale-105 hover:shadow-2xl hover:border-lime-300 hover:from-lime-400 hover:to-purple-400 hover:cursor-pointer 
+    transition-all duration-300 ease-in-out font-PressStart2P flex flex-col justify-center items-center;
+}
+
 .tw_form {
   @apply border-2 rounded-lg w-11/12 bg-lime-100 flex flex-col items-center mx-auto pt-10 pb-10;
 }
@@ -41,6 +47,10 @@
 
 .tw_link_2 {
   @apply border-2 border-white w-full h-10 hover:bg-purple-400 text-center font-PressStart2P flex flex-col justify-center text-gray-500;
+}
+
+.tw_link_3 {
+  @apply text-purple-500 w-28 h-10 mr-2 flex flex-col justify-center border-2 border-purple-400 rounded-lg text-center transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl font-PressStart2P text-sm;
 }
 
 .tw_p {
