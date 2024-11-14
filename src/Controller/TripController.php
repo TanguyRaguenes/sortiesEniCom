@@ -7,6 +7,7 @@ use App\Form\TripFormType;
 use App\Repository\TripRepository;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\PlaceRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,8 +71,23 @@ class TripController extends AbstractController
 
 
     #[Route('/trip/create', name: 'app_trip_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, StateRepository $stateRepository): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, PlaceRepository $placeRepository, ParticipantRepository $participantRepository, StateRepository $stateRepository): Response
     {
+
+        $places = $placeRepository->findAll();
+
+        $placesArray = array_map(function ($place) {
+            return [
+                'name' => $place->getName(),
+                'latitude' => $place->getLatitude(),
+                'longitude' => $place->getLongitude(),
+                'address' => $place->getAddress(),
+            ];
+        }, $places);
+
+        $placesJson = json_encode($placesArray);
+
+
         $trip = new Trip();
         $user = $this->getUser();
         $organizer = $participantRepository->findOneByEmail($user->getEmail());
@@ -95,7 +111,7 @@ class TripController extends AbstractController
             $this->addFlash('error', 'There was an error with your submission. Please check the form and try again.');
         }
 
-        return $this->render("trip/edit.html.twig", ['form' => $form]);
+        return $this->render("trip/edit.html.twig", ['form' => $form, 'places' => $places, 'placesJson' => $placesJson]);
     }
 
     #[Route('/trip/detail/{id}', name: 'app_trip_detail', requirements: ['id' => '\d+'])]

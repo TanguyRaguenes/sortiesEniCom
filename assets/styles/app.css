@@ -24,6 +24,10 @@
   @apply mb-4 pt-2 pb-2 w-11/12 text-xl text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner;
 }
 
+.tw_input_readOnly {
+  @apply mb-4 pt-2 pb-2 w-11/12 text-xl text-center bg-gray-200 rounded-lg border border-purple-300 outline-none shadow-inner hover:cursor-not-allowed;
+}
+
 .tw_error {
   @apply text-red-600;
 }

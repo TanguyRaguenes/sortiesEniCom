@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block stylesheet %}
+    {{parent()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{% endblock %}
+
+
+{% block importmap %}
+    {{ importmap(['app','map_manipuler'])}}
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{parent()}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+{% endblock %}
+
+{% block body %}
+
+    <section class="mt-32 pb-32 text-center items-center">
+
+    <a href="{{ path('app_trip_create') }}" class="tw_btn block w-9/12 mx-auto">Back</a>
+
+    <h1 id="test" class="tw_h1 mb-4">Let's add a new place !</h1>
+
+        <div id="map" class="h-96 w-11/12 mx-auto cursor-pointer"></div>
+
+        {{ form_start(form,{
+                        'label_attr':{'class':''}
+                    }) }}
+
+            <div class="tw_form">
+
+                <div class="tw_formItem">
+                    {{ form_label(form.name,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.name,{
+                        'attr':{'class':'tw_input'}
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+                
+                <div class="tw_formItem">
+                    {{ form_label(form.address,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.address,{
+                        'attr':{'class':'tw_input_readOnly','readonly': true}
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.address) }}
+                    </div>
+                </div>
+
+                <div class="tw_formItem">
+                    {{ form_label(form.latitude,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.latitude,{
+                        'attr':{'class':'tw_input_readOnly','readonly': true},
+                        'value':47.22679624955804
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.latitude) }}
+                    </div>
+                </div>
+
+                <div class="tw_formItem" readonly="readonly">
+                    {{ form_label(form.longitude,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.longitude,{
+                        'attr':{'class':'tw_input_readOnly','readonly': true},
+                        'value':-1.6206476928187
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.longitude) }}
+                    </div>
+                </div>
+
+                {# <div class="tw_formItem">
+                    {{ form_label(form.trip,null,{
+                        'label_attr':{'class':'text-xl'}
+                    })}}
+                    {{ form_widget(form.trip,{
+                        'attr':{'class':'tw_input'}
+                    }) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.trip) }}
+                    </div>
+                </div> #}
+
+               
+
+                <button class="tw_btn w-11/12">Submit</button>
+
+            </div>
+
+        {{ form_end(form) }}
+
+        
+    </section>
+
+{% endblock %}
+
+

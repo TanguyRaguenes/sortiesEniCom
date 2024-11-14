@@ -2,6 +2,25 @@
 
 {% block title %}Hello TripController!{% endblock %}
 
+{% block stylesheet %}
+    {{parent()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{% endblock %}
+
+
+{% block importmap %}
+    {{ importmap(['app','map_afficher'])}}
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{parent()}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+{% endblock %}
+
 {% block body %}
 
     <section class="mt-32 pb-32">
@@ -17,7 +36,9 @@
            {{ form_widget(form.organizer,{
                 'attr':{'class':'tw_input'}
             })}}
-           {{ form_errors(form.organizer) }}
+            <div class="tw_error">
+                {{ form_errors(form.organizer) }}
+            </div>
        </div>
         <div class="tw_formItem">
             {{ form_label(form.state,null,{
@@ -26,7 +47,9 @@
             {{ form_widget(form.state,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.state) }}
+            <div class="tw_error">
+                {{ form_errors(form.state) }}
+            </div>
         </div>
        <div class="tw_formItem">
            {{ form_label(form.name,null,{
@@ -35,7 +58,9 @@
            {{ form_widget(form.name,{
                'attr':{'class':'tw_input'}
            }) }}
-           {{ form_errors(form.name) }}
+           <div class="tw_error">
+                {{ form_errors(form.name) }}
+           </div>
        </div>
         <div class="tw_formItem">
             {{ form_label(form.dateAndTime,null,{
@@ -44,7 +69,9 @@
             {{ form_widget(form.dateAndTime,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.dateAndTime) }}
+            <div class="tw_error">
+                {{ form_errors(form.dateAndTime) }}
+            </div>
         </div>
         <div class="tw_formItem">
             {{ form_label(form.duration,null,{
@@ -53,7 +80,9 @@
             {{ form_widget(form.duration,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.duration) }}
+            <div class="tw_error">
+                {{ form_errors(form.duration) }}
+            </div>
         </div>
         <div class="tw_formItem">
             {{ form_label(form.seats,null,{
@@ -62,7 +91,9 @@
             {{ form_widget(form.seats,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.seats) }}
+            <div class="tw_error">
+                {{ form_errors(form.seats) }}
+            </div>
         </div>
         <div class="tw_formItem">
             {{ form_label(form.textNote,null,{
@@ -71,7 +102,9 @@
             {{ form_widget(form.textNote,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.textNote) }}
+            <div class="tw_error">
+                {{ form_errors(form.textNote) }}
+            </div>
         </div>
         <div class="tw_formItem">
             {{ form_label(form.registrationDeadline,null,{
@@ -80,7 +113,9 @@
             {{ form_widget(form.registrationDeadline,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.registrationDeadline) }}
+            <div class="tw_error">
+                {{ form_errors(form.registrationDeadline) }}
+            </div>
         </div>
         <div class="tw_formItem">
             {{ form_label(form.campus,null,{
@@ -89,8 +124,11 @@
             {{ form_widget(form.campus,{
                 'attr':{'class':'tw_input'}
             }) }}
-            {{ form_errors(form.campus) }}
+            <div class="tw_error">
+                {{ form_errors(form.campus) }}
+            </div>
         </div>
+
         <div class="tw_formItem">
             {{ form_label(form.place, null, {
                 'label_attr': {'class': 'text-xl'}
@@ -98,8 +136,28 @@
             {{ form_widget(form.place, {
                 'attr': {'class': 'tw_input'}
             }) }}
-            {{ form_errors(form.place) }}
+            <div class="tw_error">
+                {{ form_errors(form.place) }}
+            </div>
         </div>
+
+        <a class="tw_btn w-1/2" href="{{ path('app_place_create') }}">Add a place</a>
+
+        <div id="map" class="h-96 w-11/12 mx-auto cursor-pointer"></div>
+
+
+        <div class="w-11/12 border-2  rounded-lg flex flex-col items-center overflow-hidden">
+            <p id="latitude" class="w-full bg-white text-center border-b-2"></P>
+            <P id="longitude" class="w-full bg-white text-center border-b-2"></P>
+            <P id="address" class="w-full bg-white text-center border-b-2"></P>
+        </div>
+  
+
+        <div class="data" data-places="{{ placesJson }}"></div>
+
+
+        
+
         <button class="tw_btn w-11/12">Submit</button>
     </div>
     {{ form_end(form) }}

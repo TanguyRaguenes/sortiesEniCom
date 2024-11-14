@@ -23,7 +23,9 @@
                     {{ form_widget(form.name,{
                         'attr':{'class':'tw_input'}
                     }) }}
-                    {{ form_errors(form.name) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.name) }}
+                    </div>
                 </div>
                 
                 <div class="tw_formItem">
@@ -33,7 +35,9 @@
                     {{ form_widget(form.firstName,{
                         'attr':{'class':'tw_input'}
                     }) }}
-                    {{ form_errors(form.firstName) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.firstName) }}
+                    </div>
                 </div>
 
                 <div class="tw_formItem">
@@ -43,7 +47,9 @@
                     {{ form_widget(form.username,{
                         'attr':{'class':'tw_input'}
                     }) }}
-                    {{ form_errors(form.username) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.username) }}
+                    </div>
                 </div>
 
                 <div class="tw_formItem">
@@ -53,7 +59,9 @@
                     {{ form_widget(form.email,{
                         'attr':{'class':'tw_input'}
                     }) }}
-                    {{ form_errors(form.email) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.email) }}
+                    </div>
                 </div>
 
                 <div class="tw_formItem">
@@ -63,7 +71,9 @@
                     {{ form_widget(form.phone,{
                         'attr':{'class':'tw_input'}
                     }) }}
-                    {{ form_errors(form.phone) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.phone) }}
+                    </div>
                 </div>
 
                 <div class="tw_formItem">
@@ -73,10 +83,12 @@
                     {{ form_widget(form.photoProfil,{
                         'attr':{}
                     }) }}
-                    {{ form_errors(form.photoProfil) }}
+                    <div class="tw_error">
+                        {{ form_errors(form.photoProfil) }}
+                    </div>
                 </div>
 
-                <button class="tw_btn w-11/12">Envoyer !</button>
+                <button class="tw_btn w-11/12">Submit</button>
 
                 </div>
 

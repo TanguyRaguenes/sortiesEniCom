@@ -22,16 +22,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('plainPassword')->getData();
+            $plainPassword = $form->get('password')->getData();
 
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $participant = new Participant(
-            name :$form->get('name')->getData(),
-            firstName : $form->get('firstName')->getData(),
-            username: $form->get('username')->getData(),
-            phone: $form->get('phone')->getData(),
-            photoProfil: "default.jpg"
+
             );
             $participant->setEmail($user->getEmail());
 

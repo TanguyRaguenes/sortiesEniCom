@@ -16,6 +16,14 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'map_manipuler' => [
+        'path' => './assets/map_manipuler.js',
+        'entrypoint' => true,
+    ],
+    'map_afficher' => [
+        'path' => './assets/map_afficher.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
