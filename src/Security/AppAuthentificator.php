@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class AppAuthenticator extends AbstractLoginFormAuthenticator
+class AppAuthentificator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 

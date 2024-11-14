@@ -67,7 +67,6 @@ class Campus
     public function removeTrip(Trip $trip): static
     {
         if ($this->trips->removeElement($trip)) {
-            // set the owning side to null (unless already changed)
             if ($trip->getCampus() === $this) {
                 $trip->setCampus(null);
             }
