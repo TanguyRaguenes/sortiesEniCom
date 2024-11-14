@@ -7,9 +7,15 @@ RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Vérifier que Composer est bien installé
+RUN composer --version
+
 # Copier le contenu de ton application Symfony dans le conteneur
 WORKDIR /var/www
 COPY . .
+
+# Donner les bonnes permissions pour le répertoire de travail
+RUN chown -R www-data:www-data /var/www
 
 # Installer les dépendances sans exécuter les scripts (pour éviter le problème)
 RUN composer install --no-scripts --ignore-platform-reqs
