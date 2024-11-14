@@ -9,7 +9,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copier le contenu de l'application Symfony dans le conteneur
 WORKDIR /var/www
-COPY . .
+COPY . /app/.
+
+# Exécuter les commandes Symfony
+RUN php bin/console cache:clear
+RUN php bin/console assets:install public
 
 # Installer les dépendances Symfony (sans exécuter de scripts)
 RUN composer install --no-scripts --ignore-platform-reqs
