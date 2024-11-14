@@ -253,13 +253,23 @@ class TripController extends AbstractController
     }
 
     #[Route('/trip/edit/{id}', name: 'app_trip_edit')]
-    public function update(int $id, Request $request, TripRepository $TripRepository, EntityManagerInterface $entityManager): Response
+    public function update(int $id, Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager, PlaceRepository $placeRepository): Response
     {
-        $trip = $TripRepository->find($id);
+        $trip = $tripRepository->find($id);
         if (!$trip) {
             throw $this->createNotFoundException('Trip not found');
         }
-                 
+        $places = $placeRepository->findAll();
+        $placesArray = array_map(function ($place) {
+        return [
+            'name' => $place->getName(),
+            'latitude' => $place->getLatitude(),
+            'longitude' => $place->getLongitude(),
+            'address' => $place->getAddress(),
+        ];
+        }, $places);
+        $placesJson = json_encode($placesArray);
+        
         $form = $this->createForm(TripFormType::class, $trip);
         $form->handleRequest($request);
                      
@@ -271,6 +281,9 @@ class TripController extends AbstractController
         return $this->render("trip/edit.html.twig", [
             'form' => $form,
             'trip' => $trip,
+        'places' => $places,
+        'placesJson' => $placesJson
+
         ]);
     }
 }
