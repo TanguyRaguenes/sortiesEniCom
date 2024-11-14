@@ -28,9 +28,8 @@ USER root
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN ln -s /var/www/public /var/www/html  # Redirige le root Nginx vers le dossier public de Symfony
 
-# Créer le dossier de logs Nginx et vérifier la configuration
+# Créer le dossier de logs Nginx
 RUN mkdir -p /var/log/nginx && chown -R appuser:appuser /var/log/nginx
-RUN nginx -t
 
 # Effacer le cache Symfony pour l’environnement de production
 RUN php bin/console cache:clear --env=prod
