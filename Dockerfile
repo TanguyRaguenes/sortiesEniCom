@@ -16,8 +16,11 @@ COPY . /app
 # Installer les dépendances Composer
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Exposer le port utilisé par le serveur Symfony
-EXPOSE 8000
+# Effacer le cache Symfony pour l’environnement de production
+RUN php bin/console cache:clear --env=prod
 
-# Lancer le serveur Symfony et garder le conteneur actif
-CMD php -S 0.0.0.0:8000 -t public & tail -f /dev/null
+# Exposer le port utilisé par le serveur Symfony
+EXPOSE 80
+
+# Lancer le serveur Symfony en mode avant-plan
+CMD php -S 0.0.0.0:80 -t public
