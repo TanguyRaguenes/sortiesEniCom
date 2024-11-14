@@ -20,7 +20,7 @@ RUN composer install --no-scripts --ignore-platform-reqs
 RUN php bin/console cache:clear --env=prod
 
 # Exposer le port utilisé par le serveur Symfony
-EXPOSE 80
+EXPOSE 8000
 
-# Lancer le serveur Symfony en mode avant-plan
-CMD php -S 0.0.0.0:80 -t public
+# Lancer le serveur Symfony en mode production
+CMD APP_ENV=prod APP_DEBUG=0 php -S 0.0.0.0:8000 -t public
