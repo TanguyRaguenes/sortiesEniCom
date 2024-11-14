@@ -77,13 +77,15 @@
                         <a class="tw_link_1" href="{{ path('app_trip_create') }}">Trip Create</a>
                     {% endif %}
 
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="tw_link_1" href="{{ path('admin_users_list') }}">Manage users</a>
+                    {% endif %}
+
                     {% if is_granted('ROLE_USER') %}
                         <a class="tw_link_1" href="{{ path('app_participant_profil') }}">Profil</a>
                         <a class="tw_link_1" href="{{ path('app_logout') }}">Logout</a>
                     {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a class="tw_link_1" href="{{ path('admin_users_list') }}">Manage users</a>
-                    {% endif %}
+      
                     
                     
                 </nav>
@@ -109,11 +111,16 @@
                     <a class="tw_link_2" href="{{ path('app_trip_create') }}">Trip Create</a>
                 {% endif %}
 
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="tw_link_2" href="{{ path('admin_users_list') }}">Manage users</a>
+                {% endif %}
+                
+
                 {% if is_granted('ROLE_USER') %}
                     <a class="tw_link_2" href="{{ path('app_participant_profil') }}">Profil</a>
                     <a class="tw_link_2" href="{{ path('app_logout') }}">Logout</a>
                 {% endif %}
-                
+
                 
             </nav>
 
