@@ -18,7 +18,6 @@ class AdminController extends AbstractController
     public function listUsers(EntityManagerInterface $entityManager): Response
     {
         $users = $entityManager->getRepository(User::class)->findAll();
-        
         return $this->render('admin/users.html.twig', [
             'users' => $users
         ]);
