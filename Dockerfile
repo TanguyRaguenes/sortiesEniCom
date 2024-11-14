@@ -1,9 +1,9 @@
-# Utiliser l'image PHP officielle pour Symfony
+# Utiliser l'image PHP officielle pour Symfony avec PHP-FPM
 FROM php:8.2-fpm
 
-# Installer les dépendances nécessaires pour Symfony (les extensions PHP de base)
+# Installer les dépendances nécessaires pour Symfony et Nginx
 RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip git curl \
+    libpng-dev libjpeg-dev libfreetype6-dev zip git curl nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Installer Composer
@@ -23,16 +23,13 @@ RUN chown -R appuser:appuser /var/www
 USER appuser
 RUN composer install --no-scripts --ignore-platform-reqs
 
-# Repasse à root pour exécuter des commandes Symfony nécessitant des droits élevés
+# Configurer Nginx
 USER root
-RUN php bin/console cache:clear
-RUN php bin/console assets:install public
-
-# Revenir à l’utilisateur non-root pour la sécurité
-USER appuser
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN ln -s /var/www/public /var/www/html  # Redirige le root Nginx vers le dossier public de Symfony
 
 # Exposer le port utilisé par Railway
 EXPOSE 80
 
-# Lancer PHP-FPM sans démonisation pour que Docker puisse le gérer
-CMD ["php-fpm", "--fpm-config", "/usr/local/etc/php-fpm.conf", "--nodaemonize"]
+# Lancer Nginx et PHP-FPM ensemble
+CMD service nginx start && php-fpm --nodaemonize
