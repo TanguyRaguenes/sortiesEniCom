@@ -76,9 +76,9 @@
   },
   "scripts": {
     "auto-scripts": {
-      "cache:clear": "php -r \"if (file_exists('bin/console')) { passthru('php bin/console cache:clear'); }\"",
-      "assets:install %PUBLIC_DIR%": "php bin/console assets:install %PUBLIC_DIR%",
-      "importmap:install": "php bin/console importmap:install"
+      "auto-scripts": [],
+      "post-install-cmd": [],
+      "post-update-cmd": []
     },
     "post-install-cmd": [
       "@auto-scripts"
